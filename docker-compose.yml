@@ -1,0 +1,23 @@
+
+services:
+  postgres:
+    container_name: postgres-junebank-v1
+    image: postgres
+    environment:
+      POSTGRES_USER: muaz
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - database
+    restart: unless-stopped
+
+networks:
+  database:
+    driver: bridge
+
+volumes:
+  postgres:
