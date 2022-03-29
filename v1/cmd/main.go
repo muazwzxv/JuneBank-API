@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"junebank/database"
 	"log"
@@ -15,8 +14,7 @@ func main() {
 
 	logger := log.New(os.Stdout, "JuneBank API", log.LstdFlags)
 
-	data := database.GetGormInstance()
-	fmt.Println(data)
+	database.GetGormInstance().Migrate()
 
 	app := fiber.New(fiber.Config{
 		CaseSensitive: true,

@@ -1,6 +1,6 @@
 database:
-  host: localhost
-  post: 5432
-  user: muaz
-  password: password
-  databaseName: junebank_v1
+  host: "localhost"
+  port: 5432
+  user: "muaz"
+  password: "password"
+  name: "junebank_v1"

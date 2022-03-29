@@ -2,15 +2,14 @@ package database
 
 import (
 	"fmt"
-	"gopkg.in/yaml.v3"
+	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"io/ioutil"
 	"junebank/entity"
 	"log"
 )
 
-var db *GormInstance
+var db = new(GormInstance)
 
 type GormInstance struct {
 	Config *Configuration
@@ -18,20 +17,16 @@ type GormInstance struct {
 }
 
 type Configuration struct {
-	Host         string
-	Port         int
-	User         string
-	Password     string
-	DatabaseName string
+	Host     string
+	Port     int
+	User     string
+	Password string
+	Name     string
 }
 
 func GetGormInstance() *GormInstance {
 	if !db.isInstantiated() {
-		config, err := readConfig()
-		if err != nil {
-			log.Fatalf("Error when reading config file %v", err)
-		}
-
+		config := readConfig()
 		db = newGorm(config)
 	}
 	return db
@@ -41,6 +36,7 @@ func (g *GormInstance) Migrate() {
 	err := g.Orm.Debug().AutoMigrate(
 		&entity.Account{},
 	)
+
 	if err != nil {
 		log.Fatalf("Migration Failed %v", err)
 	}
@@ -51,12 +47,12 @@ func (g *GormInstance) isInstantiated() bool {
 }
 
 func newGorm(config *Configuration) *GormInstance {
-	dsn := fmt.Sprintf("%s:%s@(%s:%d)/%s",
+	dsn := fmt.Sprintf("%s:%s@(%s:%s)/%s",
 		config.User,
 		config.Password,
 		config.Host,
 		config.Port,
-		config.DatabaseName,
+		config.Name,
 	)
 
 	conn, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
@@ -70,20 +66,19 @@ func newGorm(config *Configuration) *GormInstance {
 	return &GormInstance{config, conn}
 }
 
-func readConfig() (*Configuration, error) {
-	file, err := ioutil.ReadFile("config.yaml")
-	if err != nil {
-		log.Fatalf("Failed to open file %v", err)
+func readConfig() *Configuration {
+	reader := viper.New()
+	reader.SetConfigFile("config.yaml")
+
+	if err := reader.ReadInConfig(); err != nil {
+		log.Fatalf("Error while reading config file %s", err)
 	}
 
-	data := make(map[string]Configuration)
-	err = yaml.Unmarshal(file, data)
-
-	if err != nil {
-		return nil, err
+	return &Configuration{
+		User:     reader.GetString("database.user"),
+		Host:     reader.GetString("database.host"),
+		Port:     reader.GetInt("database.port"),
+		Name:     reader.GetString("database.name"),
+		Password: reader.GetString("database.password"),
 	}
-
-	config := data["database"]
-
-	return &config, nil
 }
