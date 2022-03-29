@@ -1,7 +1,9 @@
 package database
 
 import (
+	"fmt"
 	"gopkg.in/yaml.v3"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"io/ioutil"
 	"log"
@@ -16,26 +18,43 @@ type GormInstance struct {
 
 type Configuration struct {
 	Host         string
-	Post         int
+	Port         int
 	User         string
 	Password     string
-	databaseName string
+	DatabaseName string
 }
 
 func GetGormInstance() *GormInstance {
 	if !db.isInstantiated() {
 		config, err := readConfig()
 		if err != nil {
-
+			log.Fatalf("Error when reading config file %v", err)
 		}
 
+		db = newGorm(config)
 	}
-	return nil
+	return db
 }
 
-//func newGorm() *GormInstance {
-//
-//}
+func newGorm(config *Configuration) *GormInstance {
+	dsn := fmt.Sprintf("%s:%s@(%s:%d)/%s",
+		config.User,
+		config.Password,
+		config.Host,
+		config.Port,
+		config.DatabaseName,
+	)
+
+	conn, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+		SkipDefaultTransaction: true,
+		PrepareStmt:            true,
+	})
+	if err != nil {
+		log.Fatalf("Error when connecting to database %v", err)
+	}
+
+	return &GormInstance{config, conn}
+}
 
 func (g *GormInstance) isInstantiated() bool {
 	return g.Orm != nil
