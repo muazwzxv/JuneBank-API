@@ -1,18 +1,20 @@
 package main
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"junebank/database"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
 func main() {
-
-	logger := log.New(os.Stdout, "JuneBank API", log.LstdFlags)
 
 	database.GetGormInstance().Migrate()
 
@@ -23,6 +25,8 @@ func main() {
 		WriteTimeout:  10 * time.Second,
 		IdleTimeout:   120 * time.Second,
 	})
+
+	logger := log.New(os.Stdout, "JuneBank API", log.LstdFlags)
 
 	go func() {
 		logger.Println("Server starting")
@@ -43,10 +47,19 @@ func main() {
 	// Shutdown goes here
 }
 
-func setupMiddleware() {
-
+func setupMiddleware(app *fiber.App) {
+	app.Use(recover.New())
+	app.Use(logger.New())
+	app.Use(cors.New())
+	app.Server().MaxConnsPerIP = 1
 }
 
-func setupRoute() {
+func setupRoute(app *fiber.App) {
+	v1 := app.Group("/api")
+
+	v1.Get("/test", func(ctx *fiber.Ctx) error {
+		ctx.Send([]byte("hehe"))
+		return nil
+	})
 
 }
