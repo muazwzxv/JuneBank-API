@@ -6,6 +6,7 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"io/ioutil"
+	"junebank/entity"
 	"log"
 )
 
@@ -36,6 +37,19 @@ func GetGormInstance() *GormInstance {
 	return db
 }
 
+func (g *GormInstance) Migrate() {
+	err := g.Orm.Debug().AutoMigrate(
+		&entity.Account{},
+	)
+	if err != nil {
+		log.Fatalf("Migration Failed %v", err)
+	}
+}
+
+func (g *GormInstance) isInstantiated() bool {
+	return g.Orm != nil
+}
+
 func newGorm(config *Configuration) *GormInstance {
 	dsn := fmt.Sprintf("%s:%s@(%s:%d)/%s",
 		config.User,
@@ -54,10 +68,6 @@ func newGorm(config *Configuration) *GormInstance {
 	}
 
 	return &GormInstance{config, conn}
-}
-
-func (g *GormInstance) isInstantiated() bool {
-	return g.Orm != nil
 }
 
 func readConfig() (*Configuration, error) {

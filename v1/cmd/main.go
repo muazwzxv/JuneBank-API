@@ -13,7 +13,7 @@ import (
 
 func main() {
 
-	logger := log.New(os.Stdout, "Junebank API", log.LstdFlags)
+	logger := log.New(os.Stdout, "JuneBank API", log.LstdFlags)
 
 	data := database.GetGormInstance()
 	fmt.Println(data)
