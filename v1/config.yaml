@@ -3,4 +3,4 @@ database:
   port: 5432
   user: "muaz"
   password: "password"
-  name: "junebank_v1"
+  name: "Junebank_v1"

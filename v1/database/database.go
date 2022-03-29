@@ -47,7 +47,7 @@ func (g *GormInstance) isInstantiated() bool {
 }
 
 func newGorm(config *Configuration) *GormInstance {
-	dsn := fmt.Sprintf("%s:%s@(%s:%s)/%s",
+	dsn := fmt.Sprintf("postgres://%s:%s@%s:%d/%s",
 		config.User,
 		config.Password,
 		config.Host,
