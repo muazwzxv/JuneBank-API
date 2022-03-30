@@ -26,13 +26,13 @@ func main() {
 		IdleTimeout:   120 * time.Second,
 	})
 
-	logger := log.New(os.Stdout, "JuneBank API", log.LstdFlags)
+	logging := log.New(os.Stdout, "JuneBank API", log.LstdFlags)
 
 	go func() {
-		logger.Println("Server starting")
+		logging.Println("Server starting")
 		err := app.Listen(":8080")
 		if err != nil {
-			logger.Printf("Error starting server: %s \n", err)
+			logging.Printf("Error starting server: %s \n", err)
 			os.Exit(1)
 		}
 	}()
@@ -42,7 +42,7 @@ func main() {
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	sig := <-c
 
-	logger.Println("Received terminate request, Graceful shutdown initiated", sig)
+	logging.Println("Received terminate request, Graceful shutdown initiated", sig)
 
 	// Shutdown goes here
 }
@@ -61,5 +61,4 @@ func setupRoute(app *fiber.App) {
 		ctx.Send([]byte("hehe"))
 		return nil
 	})
-
 }
