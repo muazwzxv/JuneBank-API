@@ -15,7 +15,10 @@ func TestConnection(t *testing.T) {
 		Name:     "Junebank_v1",
 	})
 
-	if assert.NotNil(t, connection) && assert.IsType(t, &gorm.DB{}, connection.Orm) {
+	if assert.NotNil(t, connection) &&
+		assert.IsType(t, &gorm.DB{}, connection.Orm) &&
+		assert.IsType(t, &Configuration{}, connection.Config) {
+
 		t.Log("Gorm Postgres connection passed")
 	} else {
 		t.Error("Test Failed")

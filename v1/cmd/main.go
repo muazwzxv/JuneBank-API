@@ -16,7 +16,11 @@ import (
 
 func main() {
 
-	database.GetGormInstance().Migrate()
+	logging := log.New(os.Stdout, "JuneBank API", log.LstdFlags)
+
+	if err := database.GetGormInstance().Migrate(); err != nil {
+		logging.Fatalf("Failed to migrate %v", err)
+	}
 
 	app := fiber.New(fiber.Config{
 		CaseSensitive: true,
@@ -25,8 +29,6 @@ func main() {
 		WriteTimeout:  10 * time.Second,
 		IdleTimeout:   120 * time.Second,
 	})
-
-	logging := log.New(os.Stdout, "JuneBank API", log.LstdFlags)
 
 	go func() {
 		logging.Println("Server starting")

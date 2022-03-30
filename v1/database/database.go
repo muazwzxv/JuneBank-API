@@ -32,14 +32,16 @@ func GetGormInstance() *GormInstance {
 	return db
 }
 
-func (g *GormInstance) Migrate() {
+func (g *GormInstance) Migrate() error {
 	err := g.Orm.Debug().AutoMigrate(
 		&entity.Account{},
 	)
 
 	if err != nil {
-		log.Fatalf("Migration Failed %v", err)
+		return err
 	}
+
+	return nil
 }
 
 func (g *GormInstance) isInstantiated() bool {
