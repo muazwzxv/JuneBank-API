@@ -35,6 +35,7 @@ func GetGormInstance() *GormInstance {
 func (g *GormInstance) Migrate() error {
 	err := g.Orm.Debug().AutoMigrate(
 		&entity.Account{},
+		&entity.Transaction{},
 	)
 
 	if err != nil {
