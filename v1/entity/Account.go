@@ -24,3 +24,7 @@ func (a *Account) getById(gorm *gorm.DB, id uint) error {
 	}
 	return nil
 }
+
+func (a *Account) deleteByID(gorm *gorm.DB, id uint) error {
+	if err := gorm.Debug().
+}
