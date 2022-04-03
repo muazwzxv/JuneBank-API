@@ -51,7 +51,7 @@ func Error(ctx *fiber.Ctx, msg string, e error, status int) error {
 	return response(ctx, status, fiber.Map{
 		"success": false,
 		"message": msg,
-		"data":    e,
+		"data":    e.Error(),
 	})
 }
 

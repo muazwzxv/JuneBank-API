@@ -25,7 +25,7 @@ func TestPostAccount(t *testing.T) {
 				`{
 					"owner": "Muaz Bin Wazir",
 					"balance": 0.00,
-					"currency": US Dollar
+					"currency": "US Dollar"
 				}`,
 			),
 		},
