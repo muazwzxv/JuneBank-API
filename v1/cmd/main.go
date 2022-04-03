@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"junebank/database"
+	"junebank/handler"
 	"log"
 	"os"
 	"os/signal"
@@ -29,6 +30,9 @@ func main() {
 		WriteTimeout:  10 * time.Second,
 		IdleTimeout:   120 * time.Second,
 	})
+
+	setupMiddleware(app)
+	setupRoute(app)
 
 	go func() {
 		logging.Println("Server starting")
@@ -63,4 +67,11 @@ func setupRoute(app *fiber.App) {
 		ctx.Send([]byte("hehe"))
 		return nil
 	})
+
+	accountHandler := handler.NewAccountHandler()
+	v1.Post("/account", accountHandler.Create)
+	v1.Get("/account", accountHandler.GetAll)
+	v1.Get("/account/:id", accountHandler.GetByID)
+	v1.Put("/account/:id", accountHandler.UpdateByID)
+	v1.Delete("/account/:id", accountHandler.DeleteByID)
 }

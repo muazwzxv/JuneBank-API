@@ -4,6 +4,11 @@ import (
 	"gorm.io/gorm"
 )
 
+type AccountInterface interface {
+	Create(gorm *gorm.DB) error
+	GetById(gorm *gorm.DB, id uint) error
+}
+
 type Account struct {
 	gorm.Model
 	Owner    string
@@ -11,20 +16,23 @@ type Account struct {
 	Currency string
 }
 
-func (a *Account) create(gorm *gorm.DB) error {
+func (a *Account) Create(gorm *gorm.DB) error {
 	if err := gorm.Debug().Create(a).Error; err != nil {
 		return err
 	}
 	return nil
 }
 
-func (a *Account) getById(gorm *gorm.DB, id uint) error {
+func (a *Account) GetByID(gorm *gorm.DB, id uint) error {
 	if err := gorm.Debug().Where("id = ?", id).First(a).Error; err != nil {
 		return err
 	}
 	return nil
 }
 
-func (a *Account) deleteByID(gorm *gorm.DB, id uint) error {
-	if err := gorm.Debug().
+func (a *Account) DeleteByID(gorm *gorm.DB, id uint) error {
+	if err := gorm.Debug().Delete("id = ?", id).Error; err != nil {
+		return err
+	}
+	return nil
 }
