@@ -12,9 +12,9 @@ type AccountInterface interface {
 
 type Account struct {
 	gorm.Model
-	Owner    string
-	Balance  float64
-	Currency string
+	Owner    string  `json:"owner"`
+	Balance  float64 `json:"balance"`
+	Currency string  `json:"currency"`
 }
 
 const (

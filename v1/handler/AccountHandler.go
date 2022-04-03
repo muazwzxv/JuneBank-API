@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 	"junebank/database"
+	"junebank/entity"
 )
 
 type AccountHandlerInterface interface {
@@ -26,6 +27,11 @@ func NewAccountHandler() *AccountHandler {
 }
 
 func (a *AccountHandler) Create(ctx *fiber.Ctx) error {
+	account := new(entity.Account)
+	if err := ctx.BodyParser(account); err != nil {
+		return ctx.Status(fiber.StatusBadGateway).JSON(err)
+	}
+
 	return nil
 }
 
