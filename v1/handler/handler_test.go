@@ -2,6 +2,7 @@ package handler
 
 import (
 	"bytes"
+	"github.com/gofiber/fiber/v2"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"net/http"
@@ -20,11 +21,11 @@ func TestPostAccount(t *testing.T) {
 			description:  "Post User status 200",
 			route:        "http://localhost:8080/api/account",
 			method:       "POST",
-			expectedCode: 200,
+			expectedCode: fiber.StatusCreated,
 			payload: []byte(
 				`{
 					"owner": "Muaz Bin Wazir",
-					"balance": 0.00,
+					"balance": 0,
 					"currency": "US Dollar"
 				}`,
 			),
@@ -46,9 +47,9 @@ func TestPostAccount(t *testing.T) {
 			t.Fatal(err)
 		}
 
+		data, _ := ioutil.ReadAll(resp.Body)
+		t.Logf("%s", data)
 		assert.Equal(t, test.expectedCode, resp.StatusCode, test.description)
 
-		data, _ := ioutil.ReadAll(resp.Body)
-		t.Fatalf("%s", data)
 	}
 }

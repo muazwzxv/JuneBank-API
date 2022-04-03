@@ -24,11 +24,11 @@ const (
 	MYR = "Malaysia Ringgit"
 )
 
-func (a *Account) ValidateCreate() error {
-	return validation.ValidateStruct(a,
-		validation.Field(a.Owner, validation.Required),
-		validation.Field(a.Balance, validation.Required),
-		validation.Field(a.Currency, validation.Required),
+func (a Account) ValidateCreate() error {
+	return validation.ValidateStruct(&a,
+		validation.Field(&a.Owner, validation.Required),
+		validation.Field(&a.Balance, validation.Min(0)),
+		validation.Field(&a.Currency, validation.Required),
 	)
 }
 

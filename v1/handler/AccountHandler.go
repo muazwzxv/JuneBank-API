@@ -33,7 +33,17 @@ func (a *AccountHandler) Create(ctx *fiber.Ctx) error {
 		return util.BadRequest(ctx, "Cannot Parse body", err)
 	}
 
-	return nil
+	err := account.ValidateCreate()
+	if err != nil {
+		return util.BadRequest(ctx, "Validation failed", err)
+	}
+
+	err = account.Create(a.gorm)
+	if err != nil {
+		return util.BadRequest(ctx, "Failed to create", err)
+	}
+
+	return util.Created(ctx, "Account created", account)
 }
 
 func (a *AccountHandler) GetAll(ctx *fiber.Ctx) error {

@@ -38,7 +38,7 @@ func Ok(ctx *fiber.Ctx, msg string, data interface{}) error {
 // Return response with http status code `status`, and JSON message with
 // success = true, message = `msg`, and data = `data`
 func Success(ctx *fiber.Ctx, msg string, data interface{}, status int) error {
-	return response(ctx, http.StatusOK, fiber.Map{
+	return response(ctx, status, fiber.Map{
 		"success": true,
 		"message": msg,
 		"data":    data,
