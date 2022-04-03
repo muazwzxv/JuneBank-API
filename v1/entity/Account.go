@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"github.com/go-ozzo/ozzo-validation"
 	"gorm.io/gorm"
 )
 
@@ -14,6 +15,21 @@ type Account struct {
 	Owner    string
 	Balance  float64
 	Currency string
+}
+
+const (
+	EUR = "European Dollar"
+	USD = "US Dollar"
+	SG  = "Singapore Dollar"
+	MYR = "Malaysia Ringgit"
+)
+
+func (a *Account) ValidateCreate() error {
+	return validation.ValidateStruct(a,
+		validation.Field(a.Owner, validation.Required),
+		validation.Field(a.Balance, validation.Required),
+		validation.Field(a.Currency, validation.Required),
+	)
 }
 
 func (a *Account) Create(gorm *gorm.DB) error {
