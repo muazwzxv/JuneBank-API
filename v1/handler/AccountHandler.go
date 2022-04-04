@@ -6,6 +6,7 @@ import (
 	"junebank/database"
 	"junebank/entity"
 	"junebank/util"
+	"strconv"
 )
 
 type AccountHandlerInterface interface {
@@ -59,7 +60,15 @@ func (a *AccountHandler) GetAll(ctx *fiber.Ctx) error {
 }
 
 func (a *AccountHandler) GetByID(ctx *fiber.Ctx) error {
-	return nil
+	account := new(entity.Account)
+	id, _ := strconv.Atoi(ctx.Params("id"))
+
+	err := account.GetByID(a.gorm, uint(id))
+	if err != nil {
+		return util.BadRequest(ctx, "Account not found", err)
+	}
+
+	return util.Ok(ctx, "Account found", account)
 }
 
 func (a *AccountHandler) DeleteByID(ctx *fiber.Ctx) error {
