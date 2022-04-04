@@ -48,7 +48,14 @@ func (a *AccountHandler) Create(ctx *fiber.Ctx) error {
 
 func (a *AccountHandler) GetAll(ctx *fiber.Ctx) error {
 	// we need pagination here
-	return nil
+	account := new(entity.Account)
+
+	accounts, err := account.GetAll(a.gorm)
+	if err != nil {
+		return util.BadRequest(ctx, "Can't load accounts", err)
+	}
+
+	return util.Ok(ctx, "Accounts found", accounts)
 }
 
 func (a *AccountHandler) GetByID(ctx *fiber.Ctx) error {
