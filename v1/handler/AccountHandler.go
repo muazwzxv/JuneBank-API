@@ -50,7 +50,7 @@ func (a *AccountHandler) GetAll(ctx *fiber.Ctx) error {
 	// we need pagination here
 	account := new(entity.Account)
 
-	accounts, err := account.GetAll(a.gorm)
+	accounts, err := account.GetAll(a.gorm, ctx)
 	if err != nil {
 		return util.BadRequest(ctx, "Can't load accounts", err)
 	}
