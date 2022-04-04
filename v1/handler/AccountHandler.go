@@ -72,7 +72,15 @@ func (a *AccountHandler) GetByID(ctx *fiber.Ctx) error {
 }
 
 func (a *AccountHandler) DeleteByID(ctx *fiber.Ctx) error {
-	return nil
+	account := new(entity.Account)
+
+	id, _ := strconv.Atoi(ctx.Params("id"))
+	err := account.DeleteByID(a.gorm, uint(id))
+	if err != nil {
+		return util.BadRequest(ctx, "Failed to delete", err)
+	}
+
+	return util.AcceptedNoContent(ctx, "Account deleted")
 }
 
 func (a *AccountHandler) UpdateByID(ctx *fiber.Ctx) error {
