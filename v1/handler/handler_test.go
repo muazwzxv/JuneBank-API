@@ -9,6 +9,41 @@ import (
 	"testing"
 )
 
+func TestGetAllAccount(t *testing.T) {
+	tests := []struct {
+		description  string
+		route        string
+		method       string
+		expectedCode int
+	}{
+		{
+			description:  "Get All Accounts status 200",
+			route:        "http://localhost:8080/api/account",
+			method:       "GET",
+			expectedCode: fiber.StatusOK,
+		},
+	}
+
+	for _, test := range tests {
+
+		req, err := http.NewRequest(test.method, test.route, nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		client := &http.Client{}
+
+		resp, err := client.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		data, _ := ioutil.ReadAll(resp.Body)
+		t.Logf("%s", data)
+		assert.Equal(t, test.expectedCode, resp.StatusCode, test.description)
+	}
+}
+
 func TestPostAccount(t *testing.T) {
 	tests := []struct {
 		description  string
@@ -50,6 +85,5 @@ func TestPostAccount(t *testing.T) {
 		data, _ := ioutil.ReadAll(resp.Body)
 		t.Logf("%s", data)
 		assert.Equal(t, test.expectedCode, resp.StatusCode, test.description)
-
 	}
 }
