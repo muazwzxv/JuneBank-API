@@ -12,7 +12,7 @@ type accountService struct {
 type AccountService interface {
 	GetAll(ctx *fiber.Ctx) (*[]entity.Account, error)
 	GetByID(id uint) (*entity.Account, error)
-	Create()
+	Create(account *entity.Account) error
 	DeleteByID(id uint) error
 }
 
@@ -36,8 +36,11 @@ func (a *accountService) GetByID(id uint) (*entity.Account, error) {
 	}
 }
 
-func (a *accountService) Create() {
-
+func (a *accountService) Create(account *entity.Account) error {
+	if err := a.accountRepository.Create(account); err != nil {
+		return err
+	}
+	return nil
 }
 
 func (a *accountService) DeleteByID(id uint) error {
