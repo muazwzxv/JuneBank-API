@@ -59,7 +59,7 @@ func TestPostAccount(t *testing.T) {
 			expectedCode: fiber.StatusCreated,
 			payload: []byte(
 				`{
-					"owner": "Muaz Bin Wazir",
+					"owner": "Fatin Athirah Binti Nordin",
 					"balance": 0,
 					"currency": "US Dollar"
 				}`,
