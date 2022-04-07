@@ -5,7 +5,6 @@ import (
 	"junebank/entity"
 	"junebank/service"
 	"junebank/util"
-	"strconv"
 )
 
 type accountHandler struct {
@@ -46,21 +45,21 @@ func (a *accountHandler) GetAll(ctx *fiber.Ctx) error {
 }
 
 func (a *accountHandler) GetByID(ctx *fiber.Ctx) error {
-	if id, err := strconv.Atoi(ctx.Params("id")); err != nil {
-		return util.BadRequest(ctx, "Failed to parse id", err)
+	id := util.ParseIdParams(ctx)
+
+	if account, err := a.accountService.GetByID(id); err != nil {
+		return util.BadRequest(ctx, "Failed to get account", err)
 	} else {
-
-		account, err := a.accountService.GetByID(uint(id))
-		if err != nil {
-			return util.BadRequest(ctx, "Failed to get account", err)
-		}
-
 		return util.Ok(ctx, "Account found", account)
 	}
 }
 
 func (a *accountHandler) DeleteByID(ctx *fiber.Ctx) error {
-	return nil
+	id := util.ParseIdParams(ctx)
+	if err := a.accountService.DeleteByID(id); err != nil {
+		return util.BadRequest(ctx, "failed to delete account", err)
+	}
+	return util.AcceptedNoContent(ctx, "account deleted")
 }
 
 func (a *accountHandler) UpdateByID(ctx *fiber.Ctx) error {
