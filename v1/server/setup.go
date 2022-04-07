@@ -26,6 +26,9 @@ func SetupServer() {
 		IdleTimeout:   120 * time.Second,
 	})
 
+	handlers := SetupHandlers(SetupServices(SetupRepositories()))
+	registerRoutes(app, handlers)
+
 	go func() {
 		logging.Println("Server starting")
 		err := app.Listen(":8080")
@@ -43,4 +46,14 @@ func SetupServer() {
 	logging.Println("Received terminate request, Graceful shutdown initiated", sig)
 
 	// Shutdown goes here
+}
+
+func registerRoutes(app *fiber.App, handlers *Handlers) {
+	v1 := app.Group("/api")
+
+	v1.Post("/account", handlers.AccountHandler.Create)
+	v1.Get("/account", handlers.AccountHandler.GetAll)
+	v1.Get("/account/:id", handlers.AccountHandler.GetByID)
+	v1.Put("/account/:id", handlers.AccountHandler.UpdateByID)
+	v1.Delete("/account/:id", handlers.AccountHandler.DeleteByID)
 }

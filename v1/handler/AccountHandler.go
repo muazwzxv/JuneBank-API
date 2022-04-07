@@ -6,27 +6,25 @@ import (
 )
 
 type accountHandler struct {
-	service service.AccountService
+	accountService service.AccountService
 }
 
 type AccountHandler interface {
 	Create(ctx *fiber.Ctx) error
-	getAll(ctx *fiber.Ctx) error
+	GetAll(ctx *fiber.Ctx) error
 	GetByID(ctx *fiber.Ctx) error
 	DeleteByID(ctx *fiber.Ctx) error
 	UpdateByID(ctx *fiber.Ctx) error
 }
 
 func InitializeAccountHandler(service service.AccountService) AccountHandler {
-	return &accountHandler{
-		service: service,
-	}
+	return &accountHandler{accountService: service}
 }
 
 func (a *accountHandler) Create(ctx *fiber.Ctx) error {
 	return nil
 }
-func (a *accountHandler) getAll(ctx *fiber.Ctx) error {
+func (a *accountHandler) GetAll(ctx *fiber.Ctx) error {
 	return nil
 }
 
