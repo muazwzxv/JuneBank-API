@@ -3,12 +3,15 @@ package server
 import "junebank/service"
 
 type Services struct {
-	AccountService service.AccountService
+	AccountService     service.AccountService
+	TransactionService service.TransactionService
 }
 
 func SetupServices(repository *Repositories) *Services {
-	accountService := service.InitializeAccountService(repository.AccountRepository)
+	account := service.InitializeAccountService(repository.AccountRepository)
+	transaction := service.InitializeTransactionService(repository.TransactionRepository)
 	return &Services{
-		AccountService: accountService,
+		AccountService:     account,
+		TransactionService: transaction,
 	}
 }

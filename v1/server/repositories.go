@@ -6,12 +6,15 @@ import (
 )
 
 type Repositories struct {
-	AccountRepository repository.AccountRepository
+	AccountRepository     repository.AccountRepository
+	TransactionRepository repository.TransactionRepository
 }
 
 func SetupRepositories() *Repositories {
-	accountRepository := repository.InitializeAccountRepository(database.GetGormInstance().Orm)
+	account := repository.InitializeAccountRepository(database.GetGormInstance().Orm)
+	transaction := repository.InitializeTransactionRepository(database.GetGormInstance().Orm)
 	return &Repositories{
-		AccountRepository: accountRepository,
+		AccountRepository:     account,
+		TransactionRepository: transaction,
 	}
 }

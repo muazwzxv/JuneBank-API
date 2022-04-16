@@ -3,12 +3,15 @@ package server
 import "junebank/handler"
 
 type Handlers struct {
-	AccountHandler handler.AccountHandler
+	AccountHandler     handler.AccountHandler
+	TransactionHandler handler.TransactionHandler
 }
 
 func SetupHandlers(services *Services) *Handlers {
-	accountHandlers := handler.InitializeAccountHandler(services.AccountService)
+	account := handler.InitializeAccountHandler(services.AccountService)
+	transaction := handler.InitializeTransactionHandler(services.TransactionService)
 	return &Handlers{
-		AccountHandler: accountHandlers,
+		AccountHandler:     account,
+		TransactionHandler: transaction,
 	}
 }

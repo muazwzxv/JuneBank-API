@@ -26,6 +26,12 @@ func SetupServer() {
 		IdleTimeout:   120 * time.Second,
 	})
 
+	/**
+	Instantiate
+	- repository
+	- service
+	- handler
+	*/
 	handlers := SetupHandlers(SetupServices(SetupRepositories()))
 	registerRoutes(app, handlers)
 
