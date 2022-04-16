@@ -22,21 +22,31 @@ func InitializeTransactionService(repository repository.TransactionRepository) T
 }
 
 func (t transactionService) GetAll(ctx fiber.Ctx) (*[]entity.Transaction, error) {
-	//TODO implement me
-	panic("implement me")
+	if accounts, err := t.transactionRepository.GetAll(ctx); err != nil {
+		return nil, err
+	} else {
+		return accounts, nil
+	}
 }
 
 func (t transactionService) GetByID(id uint) (*entity.Transaction, error) {
-	//TODO implement me
-	panic("implement me")
+	if account, err := t.transactionRepository.GetById(id); err != nil {
+		return nil, err
+	} else {
+		return account, nil
+	}
 }
 
 func (t transactionService) Create(transaction *entity.Transaction) error {
-	//TODO implement me
-	panic("implement me")
+	if err := t.transactionRepository.Create(transaction); err != nil {
+		return err
+	}
+	return nil
 }
 
 func (t transactionService) DeleteByID(id uint) error {
-	//TODO implement me
-	panic("implement me")
+	if err := t.transactionRepository.DeleteByID(id); err != nil {
+		return err
+	}
+	return nil
 }
