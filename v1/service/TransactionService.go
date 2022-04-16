@@ -11,7 +11,7 @@ type transactionService struct {
 }
 
 type TransactionService interface {
-	GetAll(ctx fiber.Ctx) (*[]entity.Transaction, error)
+	GetAll(ctx *fiber.Ctx) (*[]entity.Transaction, error)
 	GetByID(id uint) (*entity.Transaction, error)
 	Create(transaction *entity.Transaction) error
 	DeleteByID(id uint) error
@@ -21,7 +21,7 @@ func InitializeTransactionService(repository repository.TransactionRepository) T
 	return &transactionService{transactionRepository: repository}
 }
 
-func (t transactionService) GetAll(ctx fiber.Ctx) (*[]entity.Transaction, error) {
+func (t transactionService) GetAll(ctx *fiber.Ctx) (*[]entity.Transaction, error) {
 	if accounts, err := t.transactionRepository.GetAll(ctx); err != nil {
 		return nil, err
 	} else {
