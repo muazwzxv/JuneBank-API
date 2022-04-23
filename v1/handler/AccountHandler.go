@@ -26,21 +26,21 @@ func InitializeAccountHandler(service service.AccountService) AccountHandler {
 func (a *accountHandler) Create(ctx *fiber.Ctx) error {
 	account := new(entity.Account)
 	if err := ctx.BodyParser(account); err != nil {
-		return util.BadRequest(ctx, "Failed to parse", err)
+		return util.BadRequest(ctx, "failed to parse", err)
 	}
 
 	if err := a.accountService.Create(account); err != nil {
-		return util.BadRequest(ctx, "Failed to create", err)
+		return util.BadRequest(ctx, "failed to create", err)
 	} else {
-		return util.Created(ctx, "Accounts fetched", account)
+		return util.Created(ctx, "accounts created", account)
 	}
 }
 
 func (a *accountHandler) GetAll(ctx *fiber.Ctx) error {
 	if accounts, err := a.accountService.GetAll(ctx); err != nil {
-		return util.BadRequest(ctx, "Cannot fetch accounts", err)
+		return util.BadRequest(ctx, "cannot fetch accounts", err)
 	} else {
-		return util.Ok(ctx, "Accounts fetched", accounts)
+		return util.Ok(ctx, "accounts fetched", accounts)
 	}
 }
 
@@ -48,9 +48,9 @@ func (a *accountHandler) GetByID(ctx *fiber.Ctx) error {
 	id := util.ParseIdParams(ctx)
 
 	if account, err := a.accountService.GetByID(id); err != nil {
-		return util.BadRequest(ctx, "Failed to get account", err)
+		return util.BadRequest(ctx, "failed to get account", err)
 	} else {
-		return util.Ok(ctx, "Account found", account)
+		return util.Ok(ctx, "account found", account)
 	}
 }
 
