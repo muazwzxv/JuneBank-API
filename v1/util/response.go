@@ -35,7 +35,7 @@ func AcceptedNoContent(ctx *fiber.Ctx, msg string) error {
 	return Success(ctx, msg, nil, http.StatusNoContent)
 }
 
-// Return `controller.Success()` with `StatusOk`(20o) status code
+// Return `controller.Success()` with `StatusOk`(200) status code
 func Ok(ctx *fiber.Ctx, msg string, data interface{}) error {
 	return Success(ctx, msg, data, http.StatusOK)
 }

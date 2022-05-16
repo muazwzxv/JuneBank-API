@@ -66,6 +66,5 @@ func registerRoutes(app *fiber.App, handlers *Handlers) {
 	v1.Post("/transaction", handlers.TransactionHandler.Create)
 	v1.Get("/transaction", handlers.TransactionHandler.GetAll)
 	v1.Get("/transaction/:id", handlers.TransactionHandler.GetByID)
-	v1.Put("/transaction/:id", handlers.TransactionHandler.UpdateByID)
 	v1.Delete("/transaction/:id", handlers.TransactionHandler.DeleteByID)
 }

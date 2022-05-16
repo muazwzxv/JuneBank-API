@@ -16,7 +16,6 @@ type TransactionHandler interface {
 	GetAll(ctx *fiber.Ctx) error
 	GetByID(ctx *fiber.Ctx) error
 	DeleteByID(ctx *fiber.Ctx) error
-	UpdateByID(ctx *fiber.Ctx) error
 }
 
 func InitializeTransactionHandler(service service.TransactionService) TransactionHandler {
@@ -56,11 +55,10 @@ func (t *transactionHandler) GetByID(ctx *fiber.Ctx) error {
 }
 
 func (t *transactionHandler) DeleteByID(ctx *fiber.Ctx) error {
-	//TODO implement me
-	panic("implement me")
-}
+	id := util.ParseIdParams(ctx)
 
-func (t *transactionHandler) UpdateByID(ctx *fiber.Ctx) error {
-	//TODO implement me
-	panic("implement me")
+	if err := t.transactionService.DeleteByID(id); err != nil {
+		return util.BadRequest(ctx, "failed to delete", err)
+	}
+	return util.Ok(ctx, "transaction deleted", nil)
 }
