@@ -1,13 +1,14 @@
 package server
 
 import (
-	"github.com/gofiber/fiber/v2"
-	"junebank/database"
+	"junebank_v1/database"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 func SetupServer() {

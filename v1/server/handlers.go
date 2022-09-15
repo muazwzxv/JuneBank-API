@@ -1,6 +1,6 @@
 package server
 
-import "junebank/handler"
+import "junebank_v1/handler"
 
 type Handlers struct {
 	AccountHandler     handler.AccountHandler

@@ -1,10 +1,11 @@
 package repository
 
 import (
+	"junebank_v1/entity"
+	"junebank_v1/util"
+
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
-	"junebank/entity"
-	"junebank/util"
 )
 
 type transactionRepository struct {

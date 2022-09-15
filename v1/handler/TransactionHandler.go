@@ -1,10 +1,11 @@
 package handler
 
 import (
+	"junebank_v1/entity"
+	"junebank_v1/service"
+	"junebank_v1/util"
+
 	"github.com/gofiber/fiber/v2"
-	"junebank/entity"
-	"junebank/service"
-	"junebank/util"
 )
 
 type transactionHandler struct {

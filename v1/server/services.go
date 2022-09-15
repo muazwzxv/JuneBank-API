@@ -1,6 +1,6 @@
 package server
 
-import "junebank/service"
+import "junebank_v1/service"
 
 type Services struct {
 	AccountService     service.AccountService

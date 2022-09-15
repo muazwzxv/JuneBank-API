@@ -1,6 +1,6 @@
 package main
 
-import "junebank/server"
+import "junebank_v1/server"
 
 func main() {
 	server.SetupServer()

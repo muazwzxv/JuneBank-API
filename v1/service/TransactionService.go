@@ -1,9 +1,10 @@
 package service
 
 import (
+	"junebank_v1/entity"
+	"junebank_v1/repository"
+
 	"github.com/gofiber/fiber/v2"
-	"junebank/entity"
-	"junebank/repository"
 )
 
 type transactionService struct {

@@ -1,9 +1,14 @@
 package util
 
 import (
-	"github.com/gofiber/fiber/v2"
 	"net/http"
+
+	"github.com/gofiber/fiber/v2"
 )
+
+/*
+* TODO : Update the error handling
+ */
 
 // Return `controller.Error()` with `StatusForbidden`(403)
 func Forbidden(ctx *fiber.Ctx, msg string, err error) error {

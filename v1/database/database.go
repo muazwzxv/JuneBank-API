@@ -2,11 +2,12 @@ package database
 
 import (
 	"fmt"
+	"junebank_v1/entity"
+	"log"
+
 	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"junebank/entity"
-	"log"
 )
 
 var db = new(GormInstance)

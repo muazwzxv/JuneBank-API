@@ -1,10 +1,11 @@
 package entity
 
 import (
-	"github.com/go-ozzo/ozzo-validation"
+	"junebank_v1/util"
+
+	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
-	"junebank/util"
 )
 
 type AccountInterface interface {
@@ -42,6 +43,7 @@ func (a *Account) Create(gorm *gorm.DB) error {
 }
 
 func (a *Account) GetAll(gorm *gorm.DB, ctx *fiber.Ctx) (*[]Account, error) {
+	// TODO : Add pagination and page size
 	accounts := new([]Account)
 
 	if err := gorm.Debug().Scopes(util.Paginate(ctx)).Find(accounts).Error; err != nil {

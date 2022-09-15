@@ -1,8 +1,8 @@
 package server
 
 import (
-	"junebank/database"
-	"junebank/repository"
+	"junebank_v1/database"
+	"junebank_v1/repository"
 )
 
 type Repositories struct {
