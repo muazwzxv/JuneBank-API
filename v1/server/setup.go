@@ -56,7 +56,7 @@ func SetupServer() {
 }
 
 func registerRoutes(app *fiber.App, handlers *Handlers) {
-	v1 := app.Group("/api")
+	v1 := app.Group("/api/v1")
 
 	v1.Post("/account", handlers.AccountHandler.Create)
 	v1.Get("/account", handlers.AccountHandler.GetAll)
