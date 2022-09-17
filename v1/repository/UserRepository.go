@@ -12,7 +12,7 @@ type userDB struct {
 
 type UserRepository interface {
 	Create(user *entity.User) error
-	GetById(id uint) (*entity.User, error)
+	GetByID(id uint) (*entity.User, error)
 }
 
 func InitializeUserRepository(gorm *gorm.DB) UserRepository {
@@ -26,7 +26,7 @@ func (db *userDB) Create(user *entity.User) error {
 	return nil
 }
 
-func (db *userDB) GetById(id uint) (*entity.User, error) {
+func (db *userDB) GetByID(id uint) (*entity.User, error) {
 	user := new(entity.User)
 	if err := db.gorm.Debug().Where("id = ?", id).First(user).Error; err != nil {
 		return nil, err

@@ -8,17 +8,17 @@ import (
 )
 
 type transactionService struct {
-	transactionRepository repository.TransactionRepository
+	transactionRepository repository.ITransactionRepository
 }
 
-type TransactionService interface {
+type ITransactionService interface {
 	GetAll(ctx *fiber.Ctx) (*[]entity.Transaction, error)
 	GetByID(id uint) (*entity.Transaction, error)
 	Create(transaction *entity.Transaction) error
 	DeleteByID(id uint) error
 }
 
-func InitializeTransactionService(repository repository.TransactionRepository) TransactionService {
+func InitializeTransactionService(repository repository.ITransactionRepository) ITransactionService {
 	return &transactionService{transactionRepository: repository}
 }
 

@@ -12,19 +12,18 @@ type transactionRepository struct {
 	gorm *gorm.DB
 }
 
-type TransactionRepository interface {
+type ITransactionRepository interface {
 	Create(transaction *entity.Transaction) error
 	GetById(id uint) (*entity.Transaction, error)
 	GetAll(ctx *fiber.Ctx) (*[]entity.Transaction, error)
 	DeleteByID(id uint) error
 }
 
-func InitializeTransactionRepository(gorm *gorm.DB) TransactionRepository {
+func InitializeTransactionRepository(gorm *gorm.DB) ITransactionRepository {
 	return &transactionRepository{gorm}
 }
 
 func (t transactionRepository) Create(transaction *entity.Transaction) error {
-	//TODO implement me
 	if err := t.gorm.Debug().Create(transaction).Error; err != nil {
 		return err
 	}

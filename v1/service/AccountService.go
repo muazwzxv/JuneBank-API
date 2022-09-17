@@ -8,16 +8,16 @@ import (
 )
 
 type accountService struct {
-	accountRepository repository.AccountRepository
+	accountRepository repository.IAccountRepository
 }
-type AccountService interface {
+type IAccountService interface {
 	GetAll(ctx *fiber.Ctx) (*[]entity.Account, error)
 	GetByID(id uint) (*entity.Account, error)
 	Create(account *entity.Account) error
 	DeleteByID(id uint) error
 }
 
-func InitializeAccountService(repository repository.AccountRepository) AccountService {
+func InitializeAccountService(repository repository.IAccountRepository) IAccountService {
 	return &accountService{accountRepository: repository}
 }
 

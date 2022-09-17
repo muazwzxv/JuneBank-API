@@ -9,17 +9,17 @@ import (
 )
 
 type transactionHandler struct {
-	transactionService service.TransactionService
+	transactionService service.ITransactionService
 }
 
-type TransactionHandler interface {
+type ITransactionHandler interface {
 	Create(ctx *fiber.Ctx) error
 	GetAll(ctx *fiber.Ctx) error
 	GetByID(ctx *fiber.Ctx) error
 	DeleteByID(ctx *fiber.Ctx) error
 }
 
-func InitializeTransactionHandler(service service.TransactionService) TransactionHandler {
+func InitializeTransactionHandler(service service.ITransactionService) ITransactionHandler {
 	return &transactionHandler{transactionService: service}
 }
 

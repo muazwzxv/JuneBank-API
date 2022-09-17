@@ -9,10 +9,10 @@ import (
 )
 
 type accountHandler struct {
-	accountService service.AccountService
+	accountService service.IAccountService
 }
 
-type AccountHandler interface {
+type IAccountHandler interface {
 	Create(ctx *fiber.Ctx) error
 	GetAll(ctx *fiber.Ctx) error
 	GetByID(ctx *fiber.Ctx) error
@@ -20,7 +20,7 @@ type AccountHandler interface {
 	UpdateByID(ctx *fiber.Ctx) error
 }
 
-func InitializeAccountHandler(service service.AccountService) AccountHandler {
+func InitializeAccountHandler(service service.IAccountService) IAccountHandler {
 	return &accountHandler{accountService: service}
 }
 

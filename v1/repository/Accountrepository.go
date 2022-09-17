@@ -12,14 +12,14 @@ type accountRepository struct {
 	gorm *gorm.DB
 }
 
-type AccountRepository interface {
+type IAccountRepository interface {
 	Create(account *entity.Account) error
 	GetByID(id uint) (*entity.Account, error)
 	GetAll(ctx *fiber.Ctx) (*[]entity.Account, error)
 	DeleteByID(id uint) error
 }
 
-func InitializeAccountRepository(gorm *gorm.DB) AccountRepository {
+func InitializeAccountRepository(gorm *gorm.DB) IAccountRepository {
 	return &accountRepository{gorm}
 }
 

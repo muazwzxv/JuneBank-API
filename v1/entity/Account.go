@@ -18,7 +18,7 @@ type Account struct {
 	Owner    string  `json:"owner"`
 	Balance  float64 `json:"balance"`
 	Currency string  `json:"currency"`
-	UserId   uint
+	UserId   uint    `json:"user_id"`
 
 	User User
 }

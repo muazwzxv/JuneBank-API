@@ -3,8 +3,8 @@ package server
 import "junebank_v1/service"
 
 type Services struct {
-	AccountService     service.AccountService
-	TransactionService service.TransactionService
+	AccountService     service.IAccountService
+	TransactionService service.ITransactionService
 }
 
 func SetupServices(repository *Repositories) *Services {

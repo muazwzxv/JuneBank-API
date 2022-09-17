@@ -6,8 +6,8 @@ import (
 )
 
 type Repositories struct {
-	AccountRepository     repository.AccountRepository
-	TransactionRepository repository.TransactionRepository
+	AccountRepository     repository.IAccountRepository
+	TransactionRepository repository.ITransactionRepository
 }
 
 func SetupRepositories() *Repositories {
