@@ -1,16 +1,16 @@
 package entity
 
 import (
-	"junebank_v1/util"
-
-	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
 
 type AccountInterface interface {
+	ValidateCreate() error
 	Create(gorm *gorm.DB) error
 	GetById(gorm *gorm.DB, id uint) error
+	GetAll(gorm *gorm.DB, ctx *fiber.Ctx) (*[]Account, error)
+	DeleteByID(gorm *gorm.DB, id uint) error
 }
 
 type Account struct {
@@ -18,6 +18,9 @@ type Account struct {
 	Owner    string  `json:"owner"`
 	Balance  float64 `json:"balance"`
 	Currency string  `json:"currency"`
+	UserId   uint
+
+	User User
 }
 
 const (
@@ -26,43 +29,3 @@ const (
 	SG  = "Singapore Dollar"
 	MYR = "Malaysia Ringgit"
 )
-
-func (a Account) ValidateCreate() error {
-	return validation.ValidateStruct(&a,
-		validation.Field(&a.Owner, validation.Required),
-		validation.Field(&a.Balance, validation.Min(0)),
-		validation.Field(&a.Currency, validation.Required),
-	)
-}
-
-func (a *Account) Create(gorm *gorm.DB) error {
-	if err := gorm.Debug().Create(a).Error; err != nil {
-		return err
-	}
-	return nil
-}
-
-func (a *Account) GetAll(gorm *gorm.DB, ctx *fiber.Ctx) (*[]Account, error) {
-	// TODO : Add pagination and page size
-	accounts := new([]Account)
-
-	if err := gorm.Debug().Scopes(util.Paginate(ctx)).Find(accounts).Error; err != nil {
-		return nil, err
-	}
-
-	return accounts, nil
-}
-
-func (a *Account) GetByID(gorm *gorm.DB, id uint) error {
-	if err := gorm.Debug().Where("id = ?", id).First(a).Error; err != nil {
-		return err
-	}
-	return nil
-}
-
-func (a *Account) DeleteByID(gorm *gorm.DB, id uint) error {
-	if err := gorm.Debug().Delete("id = ?", id).Error; err != nil {
-		return err
-	}
-	return nil
-}
