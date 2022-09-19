@@ -13,11 +13,11 @@ import (
 var db = new(GormInstance)
 
 type GormInstance struct {
-	Config *Configuration
+	Config *DatabaseConfiguration
 	Orm    *gorm.DB
 }
 
-type Configuration struct {
+type DatabaseConfiguration struct {
 	Host     string
 	Port     int
 	User     string
@@ -50,7 +50,7 @@ func (g *GormInstance) isInstantiated() bool {
 	return g.Orm != nil
 }
 
-func newGorm(config *Configuration) *GormInstance {
+func newGorm(config *DatabaseConfiguration) *GormInstance {
 	dsn := fmt.Sprintf("postgres://%s:%s@%s:%d/%s",
 		config.User,
 		config.Password,
@@ -70,7 +70,7 @@ func newGorm(config *Configuration) *GormInstance {
 	return &GormInstance{config, conn}
 }
 
-func readConfig() *Configuration {
+func readConfig() *DatabaseConfiguration {
 	reader := viper.New()
 	reader.SetConfigFile("config.yaml")
 
@@ -78,7 +78,7 @@ func readConfig() *Configuration {
 		log.Fatalf("Error while reading config file %s", err)
 	}
 
-	return &Configuration{
+	return &DatabaseConfiguration{
 		User:     reader.GetString("database.user"),
 		Host:     reader.GetString("database.host"),
 		Port:     reader.GetInt("database.port"),

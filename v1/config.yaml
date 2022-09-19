@@ -4,3 +4,9 @@ database:
   user: "muaz"
   password: "password"
   name: "Junebank_v1"
+
+redis:
+  host: redis
+  port: 6379
+  user: redis
+  password: password

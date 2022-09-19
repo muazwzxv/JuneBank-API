@@ -33,9 +33,9 @@ func (a *accountHandler) Create(ctx *fiber.Ctx) error {
 
 	if err := a.accountService.Create(account); err != nil {
 		return fiber.NewError(fiber.ErrConflict.Code, "failed to parse")
-	} else {
-		return util.Created(ctx, "accounts created", account)
 	}
+
+	return util.Created(ctx, "accounts created", account)
 }
 
 func (a *accountHandler) GetAll(ctx *fiber.Ctx) error {

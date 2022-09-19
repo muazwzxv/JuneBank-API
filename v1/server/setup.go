@@ -1,6 +1,7 @@
 package server
 
 import (
+	"junebank_v1/caching"
 	"junebank_v1/database"
 	"log"
 	"os"
@@ -18,6 +19,8 @@ func SetupServer() {
 	if err := database.GetGormInstance().Migrate(); err != nil {
 		logging.Fatalf("Failed to migrate %v", err)
 	}
+
+	_ = caching.GetRedisInstance()
 
 	app := fiber.New(fiber.Config{
 		CaseSensitive: true,
