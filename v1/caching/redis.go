@@ -1,6 +1,7 @@
 package caching
 
 import (
+	"context"
 	"fmt"
 	"log"
 
@@ -9,10 +10,11 @@ import (
 )
 
 var rds = new(RedisCacheInstance)
+var Ctx = context.Background()
 
 type RedisCacheInstance struct {
-	cache  *redis.Client
-	config *RedisConfiguration
+	Cache  *redis.Client
+	Config *RedisConfiguration
 }
 
 type RedisConfiguration struct {
