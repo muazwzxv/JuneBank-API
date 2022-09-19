@@ -55,7 +55,7 @@ func newRedis(config *RedisConfiguration) *RedisCacheInstance {
 }
 
 func (r *RedisCacheInstance) isInstantiated() bool {
-	return r.cache != nil
+	return r.Cache != nil
 }
 
 func readConfig() *RedisConfiguration {

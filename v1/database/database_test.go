@@ -1,13 +1,14 @@
 package database
 
 import (
+	"testing"
+
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
-	"testing"
 )
 
 func TestConnection(t *testing.T) {
-	connection := newGorm(&Configuration{
+	connection := newGorm(&DatabaseConfiguration{
 		User:     "muaz",
 		Password: "password",
 		Host:     "localhost",
@@ -17,7 +18,7 @@ func TestConnection(t *testing.T) {
 
 	if assert.NotNil(t, connection) &&
 		assert.IsType(t, &gorm.DB{}, connection.Orm) &&
-		assert.IsType(t, &Configuration{}, connection.Config) {
+		assert.IsType(t, &DatabaseConfiguration{}, connection.Config) {
 
 		t.Log("Gorm Postgres connection passed")
 	} else {
