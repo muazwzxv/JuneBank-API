@@ -5,6 +5,7 @@ import (
 	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"junebank/v2/account-service/entity"
 	"log"
 )
 
@@ -32,7 +33,9 @@ func GetGormInstance() *GormInstance {
 }
 
 func (g *GormInstance) Migrate() error {
-	err := g.Orm.Debug().AutoMigrate()
+	err := g.Orm.Debug().AutoMigrate(
+		&entity.User{},
+		&entity.Account{})
 
 	if err != nil {
 		return err

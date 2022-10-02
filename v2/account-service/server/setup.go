@@ -54,4 +54,8 @@ func registerRoutes(app *fiber.App) {
 	v2.Get("/ping", func(ctx *fiber.Ctx) error {
 		return ctx.JSON("Alive")
 	})
+
+	v2.Post("/user", func(ctx *fiber.Ctx) error {
+		return ctx.JSON("Create new user")
+	})
 }
