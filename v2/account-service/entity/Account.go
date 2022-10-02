@@ -19,8 +19,6 @@ type Account struct {
 	Balance  float64 `json:"balance"`
 	Currency string  `json:"currency"`
 	UserId   uint    `json:"user_id"`
-
-	User User
 }
 
 const (

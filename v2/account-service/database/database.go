@@ -33,9 +33,7 @@ func GetGormInstance() *GormInstance {
 }
 
 func (g *GormInstance) Migrate() error {
-	err := g.Orm.Debug().AutoMigrate(
-		&entity.User{},
-		&entity.Account{})
+	err := g.Orm.Debug().AutoMigrate(&entity.Account{})
 
 	if err != nil {
 		return err
@@ -70,7 +68,7 @@ func newGorm(config *Configuration) *GormInstance {
 
 func readConfig() *Configuration {
 	reader := viper.New()
-	reader.SetConfigFile("config.yaml")
+	reader.SetConfigFile("../config.yaml")
 
 	if err := reader.ReadInConfig(); err != nil {
 		log.Fatalf("Error while reading config file %s", err)

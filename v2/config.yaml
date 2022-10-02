@@ -3,7 +3,7 @@ database:
   port: 5432
   user: "muaz"
   password: "password"
-  name: "Junebank_v1"
+  name: "account-service"
 
 redis:
   host: redis
