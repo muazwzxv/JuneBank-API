@@ -13,4 +13,7 @@
 * Implement event driven architecture
 * Write unit test
 
+### Note
+- Try this library [Bun](https://bun.uptrace.dev/guide/)
+
 
