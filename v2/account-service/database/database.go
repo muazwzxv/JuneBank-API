@@ -68,7 +68,7 @@ func newGorm(config *Configuration) *GormInstance {
 
 func readConfig() *Configuration {
 	reader := viper.New()
-	reader.SetConfigFile("../config.yaml")
+	reader.SetConfigFile("config.yaml")
 
 	if err := reader.ReadInConfig(); err != nil {
 		log.Fatalf("Error while reading config file %s", err)

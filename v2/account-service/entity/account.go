@@ -1,17 +1,8 @@
 package entity
 
 import (
-	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
-
-type AccountInterface interface {
-	ValidateCreate() error
-	Create(gorm *gorm.DB) error
-	GetById(gorm *gorm.DB, id uint) error
-	GetAll(gorm *gorm.DB, ctx *fiber.Ctx) (*[]Account, error)
-	DeleteByID(gorm *gorm.DB, id uint) error
-}
 
 type Account struct {
 	gorm.Model
