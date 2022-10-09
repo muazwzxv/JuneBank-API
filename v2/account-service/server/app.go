@@ -12,7 +12,7 @@ import (
 )
 
 func Setup() {
-	logging := log.New(os.Stdout, "JuneBank API V2", log.LstdFlags)
+	logging := log.New(os.Stdout, "JuneBank V2: Account Service", log.LstdFlags)
 
 	/**
 	Start database connection
@@ -54,19 +54,18 @@ func Setup() {
 	/**
 	graceful shutdown goes here
 	*/
+
 }
 
 func registerRoutes(app *fiber.App) {
 	routes := app.Group("/api/v2/account")
-	//handlers := SetupHandlers(SetupServices(SetupRepositories()))
+	handlers := SetupHandlers(SetupServices(SetupRepositories()))
 
 	routes.Get("/ping", func(ctx *fiber.Ctx) error {
 		return ctx.JSON("Alive")
 	})
 
-	routes.Post("/user", func(ctx *fiber.Ctx) error {
-		return ctx.JSON("Create new user")
-	})
+	routes.Post("/user", handlers.AccountHandler.Create)
 
 	routes.Get("/user", func(ctx *fiber.Ctx) error {
 		return ctx.JSON("Get all users")

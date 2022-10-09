@@ -18,8 +18,5 @@ func CreateAccountRepository(db *gorm.DB) IAccountRepository {
 }
 
 func (r *accountRepository) Create(account *entity.Account) error {
-	if err := r.db.Debug().Create(account).Error; err != nil {
-		return err
-	}
 	return nil
 }

@@ -1,19 +1,29 @@
 package database
 
 import (
+	"database/sql"
 	"fmt"
 	"github.com/spf13/viper"
+	"github.com/uptrace/bun"
+	"github.com/uptrace/bun/dialect/pgdialect"
+	"github.com/uptrace/bun/driver/pgdriver"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"junebank/v2/account-service/entity"
 	"log"
 )
 
-var db = new(GormInstance)
+var gormInstance = new(GormInstance)
+var bunInstance = new(BunInstance)
 
 type GormInstance struct {
 	Config *Configuration
 	Orm    *gorm.DB
+}
+
+type BunInstance struct {
+	Config *Configuration
+	Orm    *bun.DB
 }
 
 type Configuration struct {
@@ -25,11 +35,35 @@ type Configuration struct {
 }
 
 func GetGormInstance() *GormInstance {
-	if !db.isInstantiated() {
+	if !gormInstance.isInstantiated() {
 		config := readConfig()
-		db = newGorm(config)
+		gormInstance = newGorm(config)
 	}
-	return db
+	return gormInstance
+}
+
+func GetBunInstance() *BunInstance {
+	if !bunInstance.isInstantiated() {
+		config := readConfig()
+		bunInstance = connectDB(config)
+	}
+	return bunInstance
+}
+
+func connectDB(config *Configuration) *BunInstance {
+
+	dsn := fmt.Sprintf("postgres://%s:%s@%s:%d/%s",
+		config.User,
+		config.Password,
+		config.Host,
+		config.Port,
+		config.Name,
+	)
+
+	conn := sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(dsn)))
+	bunOrm := bun.NewDB(conn, pgdialect.New())
+
+	return &BunInstance{config, bunOrm}
 }
 
 func (g *GormInstance) Migrate() error {
@@ -44,6 +78,10 @@ func (g *GormInstance) Migrate() error {
 
 func (g *GormInstance) isInstantiated() bool {
 	return g.Orm != nil
+}
+
+func (b *BunInstance) isInstantiated() bool {
+	return b.Orm != nil
 }
 
 func newGorm(config *Configuration) *GormInstance {
