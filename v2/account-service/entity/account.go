@@ -3,28 +3,24 @@ package entity
 import (
 	validation "github.com/go-ozzo/ozzo-validation"
 	"gorm.io/gorm"
+	"time"
 )
 
 type Account struct {
 	gorm.Model
-	Owner    string  `json:"owner"`
-	Balance  float64 `json:"balance"`
-	Currency string  `json:"currency"`
-	UserId   uint    `json:"user_id"`
+	OwnerName  string    `json:"owner"`
+	Phone      string    `json:"phone"`
+	Email      string    `json:"email"`
+	Occupation string    `json:"occupation"`
+	DOB        time.Time `json:"date_of_birth"`
 }
 
 func (a Account) Validate() error {
 	return validation.ValidateStruct(&a,
-		validation.Field(&a.Owner, validation.Required),
-		validation.Field(&a.Balance, validation.Required),
-		validation.Field(&a.Currency, validation.Required),
-		validation.Field(&a.UserId, validation.Required),
+		validation.Field(&a.OwnerName, validation.Required),
+		validation.Field(&a.Phone, validation.Required),
+		validation.Field(&a.Email, validation.Required),
+		validation.Field(&a.Occupation, validation.Required),
+		validation.Field(&a.DOB, validation.Required, validation.Max(time.Now())),
 	)
 }
-
-const (
-	EUR = "European Dollar"
-	USD = "US Dollar"
-	SG  = "Singapore Dollar"
-	MYR = "Malaysia Ringgit"
-)
