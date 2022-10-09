@@ -13,6 +13,7 @@ type IAccountRepository interface {
 	Create(account *entity.Account) error
 	IsExistByEmail(email string) bool
 	IsExistByPhone(phone string) bool
+	GetAccountById(id uint) (*entity.Account, error)
 }
 
 func CreateAccountRepository(db *gorm.DB) IAccountRepository {
@@ -42,4 +43,12 @@ func (r *accountRepository) IsExistByPhone(phone string) bool {
 		return true
 	}
 	return false
+}
+
+func (r *accountRepository) GetAccountById(id uint) (*entity.Account, error) {
+	account := new(entity.Account)
+	if err := r.db.Debug().First(account, id).Error; err != nil {
+		return nil, err
+	}
+	return account, nil
 }

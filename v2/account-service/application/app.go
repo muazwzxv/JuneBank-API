@@ -1,7 +1,6 @@
 package application
 
 import (
-	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"junebank/v2/account-service/database"
 	"log"
@@ -71,7 +70,5 @@ func registerRoutes(app *fiber.App) {
 		return ctx.JSON("Get all users")
 	})
 
-	routes.Get("/user/:id", func(ctx *fiber.Ctx) error {
-		return ctx.JSON(fmt.Sprintf("%s %s", "Get user with ID", ctx.Params("id")))
-	})
+	routes.Get("/user/:id", handlers.AccountHandler.GetById)
 }

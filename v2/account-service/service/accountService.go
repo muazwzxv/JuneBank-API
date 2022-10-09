@@ -15,6 +15,7 @@ type accountService struct {
 
 type IAccountService interface {
 	Create(ctx *fiber.Ctx, req *request.CreateAccount) error
+	GetById(ctx *fiber.Ctx, id uint) error
 }
 
 func CreateAccountService(repository repository.IAccountRepository) IAccountService {
@@ -55,4 +56,12 @@ func (s *accountService) Create(ctx *fiber.Ctx, req *request.CreateAccount) erro
 	//TODO: submit event account created
 
 	return util.Created(ctx, constants.ACCOUNT_CREATED, account)
+}
+
+func (s *accountService) GetById(ctx *fiber.Ctx, id uint) error {
+	if account, err := s.accountRepository.GetAccountById(id); err != nil {
+		return util.BadRequest(ctx, constants.BAD_REQUEST, err)
+	} else {
+		return util.Ok(ctx, "account found", account)
+	}
 }
