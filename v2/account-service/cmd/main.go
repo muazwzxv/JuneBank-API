@@ -1,7 +1,7 @@
 package main
 
-import "junebank/v2/account-service/server"
+import "junebank/v2/account-service/application"
 
 func main() {
-	server.Setup()
+	application.Setup()
 }

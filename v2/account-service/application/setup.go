@@ -1,4 +1,4 @@
-package server
+package application
 
 import (
 	"junebank/v2/account-service/database"

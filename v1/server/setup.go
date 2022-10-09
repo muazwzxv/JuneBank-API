@@ -43,7 +43,7 @@ func SetupServer() {
 		logging.Println("Server starting")
 		err := app.Listen(":8080")
 		if err != nil {
-			logging.Printf("Error starting server: %s \n", err)
+			logging.Printf("Error starting application: %s \n", err)
 			os.Exit(1)
 		}
 	}()
