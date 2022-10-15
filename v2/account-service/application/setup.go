@@ -1,7 +1,7 @@
 package application
 
 import (
-	"junebank/v2/account-service/database"
+	"junebank/v2/account-service/connections"
 	"junebank/v2/account-service/handler"
 	"junebank/v2/account-service/repository"
 	"junebank/v2/account-service/service"
@@ -15,7 +15,7 @@ type Repositories struct {
 }
 
 func SetupRepositories() *Repositories {
-	account := repository.CreateAccountRepository(database.GetGormInstance().Orm)
+	account := repository.CreateAccountRepository(connections.GetGormInstance().Orm)
 	return &Repositories{
 		AccountRepository: account,
 	}

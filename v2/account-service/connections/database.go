@@ -1,4 +1,4 @@
-package database
+package connections
 
 import (
 	"database/sql"
@@ -98,7 +98,7 @@ func newGorm(config *Configuration) *GormInstance {
 		PrepareStmt:            true,
 	})
 	if err != nil {
-		log.Fatalf("Error when connecting to database %v", err)
+		log.Fatalf("Error when connecting to connections %v", err)
 	}
 
 	return &GormInstance{config, conn}
@@ -113,10 +113,10 @@ func readConfig() *Configuration {
 	}
 
 	return &Configuration{
-		User:     reader.GetString("database.user"),
-		Host:     reader.GetString("database.host"),
-		Port:     reader.GetInt("database.port"),
-		Name:     reader.GetString("database.name"),
-		Password: reader.GetString("database.password"),
+		User:     reader.GetString("connections.user"),
+		Host:     reader.GetString("connections.host"),
+		Port:     reader.GetInt("connections.port"),
+		Name:     reader.GetString("connections.name"),
+		Password: reader.GetString("connections.password"),
 	}
 }

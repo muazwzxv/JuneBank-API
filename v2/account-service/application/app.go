@@ -2,7 +2,7 @@ package application
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"junebank/v2/account-service/database"
+	"junebank/v2/account-service/connections"
 	"log"
 	"os"
 	"os/signal"
@@ -10,14 +10,28 @@ import (
 	"time"
 )
 
+type ApplicationInstance struct {
+	Http *fiber.App
+	Log  *log.Logger
+}
+
+var application *ApplicationInstance
+
+func GetAppInstance() *ApplicationInstance {
+	if application == nil {
+		panic(1)
+	}
+	return application
+}
+
 func Setup() {
 	logging := log.New(os.Stdout, "JuneBank V2: Account Service", log.LstdFlags)
-
+	application.Log = logging
 	/**
-	Start database connection
+	Start connections connection
 	*/
-	if err := database.GetGormInstance().Migrate(); err != nil {
-		logging.Fatalf("Failed to migrate %v", err)
+	if err := connections.GetGormInstance().Migrate(); err != nil {
+		application.Log.Fatalf("Failed to migrate %v", err)
 	}
 
 	/**
@@ -31,14 +45,14 @@ func Setup() {
 		WriteTimeout:  10 * time.Second,
 		IdleTimeout:   120 * time.Second,
 	})
-
-	registerRoutes(app)
+	application.Http = app
+	registerRoutes(application.Http)
 
 	go func() {
-		logging.Println("Server starting")
-		err := app.Listen(":8080")
+		application.Log.Println("Server starting")
+		err := application.Http.Listen(":8080")
 		if err != nil {
-			logging.Printf("Error starting application: %s \n", err)
+			application.Log.Printf("Error starting application: %s \n", err)
 			os.Exit(1)
 		}
 	}()
@@ -48,7 +62,7 @@ func Setup() {
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	sig := <-c
 
-	logging.Println("Received terminate request, Grateful shutdown initiated", sig)
+	application.Log.Println("Received terminate request, Grateful shutdown initiated", sig)
 
 	/**
 	graceful shutdown goes here
