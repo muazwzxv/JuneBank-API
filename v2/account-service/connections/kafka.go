@@ -27,7 +27,7 @@ func createKafkaProducer(log *log.Logger) {
 	})
 
 	if err != nil {
-		panic(err)
+		log.Fatalf("Kafka Error: %v", err)
 	}
 
 	defer producer.Close()
