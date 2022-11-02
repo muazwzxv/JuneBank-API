@@ -10,6 +10,11 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+type Application struct {
+	fiber *fiber.App
+	log   *log.Logger
+}
+
 func (a *Application) setup() {
 	logging := log.New(os.Stdout, "JuneBank: Wallet Service", log.LstdFlags)
 
@@ -28,7 +33,7 @@ func (a *Application) setup() {
 func (a *Application) registerRoutes() {
 	v1 := a.fiber.Group("/api/v1")
 
-	v1.Post("/wallet/ping", func(c *fiber.Ctx) error {
+	v1.Get("/wallet/ping", func(c *fiber.Ctx) error {
 		return c.JSON("hehe")
 	})
 }
