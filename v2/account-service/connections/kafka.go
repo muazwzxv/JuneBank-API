@@ -6,19 +6,36 @@ import (
 )
 
 type KafkaInstance struct {
+	KafkaConsumer *KafkaConsumer
+	KafkaProducer *KafkaProducer
+}
+
+type KafkaConsumer struct {
 	Consumer *kafka.Consumer
+}
+
+type KafkaProducer struct {
 	Producer *kafka.Producer
 }
 
 var kafkaEvents KafkaInstance
 
-//var Producer *kafka.Producer
+func GetKafkaConsumer() *KafkaConsumer {
+	if kafkaEvents.KafkaConsumer.Consumer == nil {
+		createKafkaConsumer()
+	}
+	return kafkaEvents.KafkaConsumer
+}
 
-func GetKafkaProducer(log *log.Logger) *kafka.Producer {
-	if kafkaEvents.Producer == nil {
+func createKafkaConsumer() {
+
+}
+
+func GetKafkaProducer(log *log.Logger) *KafkaProducer {
+	if kafkaEvents.KafkaProducer.Producer == nil {
 		createKafkaProducer(log)
 	}
-	return kafkaEvents.Producer
+	return kafkaEvents.KafkaProducer
 }
 
 func createKafkaProducer(log *log.Logger) {
@@ -46,7 +63,7 @@ func createKafkaProducer(log *log.Logger) {
 		}
 	}()
 
-	kafkaEvents.Producer = producer
+	kafkaEvents.KafkaProducer.Producer = producer
 }
 
 func CreateConsumer() {

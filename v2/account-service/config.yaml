@@ -5,6 +5,10 @@ database:
   password: "password"
   name: "account-service"
 
+kafka:
+  host:
+
+
 redis:
   host: redis
   port: 6379
