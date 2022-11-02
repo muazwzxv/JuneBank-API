@@ -20,15 +20,30 @@ type KafkaProducer struct {
 
 var kafkaEvents KafkaInstance
 
-func GetKafkaConsumer() *KafkaConsumer {
+func GetKafkaConsumer(log *log.Logger) *KafkaConsumer {
 	if kafkaEvents.KafkaConsumer.Consumer == nil {
-		createKafkaConsumer()
+		createKafkaConsumer(log)
 	}
 	return kafkaEvents.KafkaConsumer
 }
 
-func createKafkaConsumer() {
+func createKafkaConsumer(log *log.Logger) {
+	consumer, err := kafka.NewConsumer(&kafka.ConfigMap{
+		"bootstrap.servers": "0.0.0.0:19091",
+		"group.id":          "myGroup",
+		"auto.offset.reset": "earliest",
+	})
 
+	if err != nil {
+		log.Fatalf("create kafka consumer: %v", err)
+	}
+
+	defer func(consumer *kafka.Consumer) {
+		err := consumer.Close()
+		if err != nil {
+			panic(err)
+		}
+	}(consumer)
 }
 
 func GetKafkaProducer(log *log.Logger) *KafkaProducer {
@@ -44,7 +59,7 @@ func createKafkaProducer(log *log.Logger) {
 	})
 
 	if err != nil {
-		log.Fatalf("Kafka Error: %v", err)
+		log.Fatalf("create kafka producer Error: %v", err)
 	}
 
 	defer producer.Close()
