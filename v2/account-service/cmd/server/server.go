@@ -13,16 +13,15 @@ type IServer interface {
 	Routes() error
 }
 
-type server struct {
+type fiberServer struct {
 	app *fiber.App
 }
 
 func New() IServer {
-	var svr server
-	return &svr
+	return &fiberServer{}
 }
 
-func (s *server) Setup() error {
+func (s *fiberServer) Setup() error {
 	if s.app != nil {
 		return errors.New("Server already exists")
 	}
@@ -41,10 +40,10 @@ func (s *server) Setup() error {
 	return nil
 }
 
-func (s *server) Start() error {
+func (s *fiberServer) Start() error {
 	return s.app.Listen(":3000")
 }
 
-func (s *server) Routes() error {
+func (s *fiberServer) Routes() error {
 	return nil
 }
