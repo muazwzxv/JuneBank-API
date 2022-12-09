@@ -1,19 +1,12 @@
-version: '3.8'
+version: '3.9'
 services:
   mysql:
+    image: mysql:8.0.31
     container_name: user-service-db
-    image: mysql:8.0
-    cap_add:
-      - SYS_NICE
-    restart: always
-    environment:
-      - MYSQL_DATABASE=quotes
-      - MYSQL_ROOT_PASSWORD=mauFJcuf5dhRMQrjj
     ports:
-      - '3306:3306'
+      - "3306:3306"
+    environment:
+        MYSQL_ROOT_PASSWORD: pass
+        MYSQL_DATABASE: user
     volumes:
-      - mysql:/var/lib/mysql
-      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
-volumes:
-  mysql:
-    driver: local
+      - ./volumes/mysql:/var/lib/mysql
