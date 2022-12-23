@@ -1,12 +1,25 @@
 version: '3.9'
 services:
-  mysql:
-    image: mysql:8.0.31
-    container_name: user-service-db
-    ports:
-      - "3306:3306"
+   postgres:
+    container_name: pg-accountservice-v2
+    image: postgres
     environment:
-        MYSQL_ROOT_PASSWORD: pass
-        MYSQL_DATABASE: user
+      POSTGRES_DB: user
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
     volumes:
-      - ./volumes/mysql:/var/lib/mysql
+      # - postgres:/data/postgres
+      - ./data/db:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - database
+    restart: unless-stopped
+
+networks:
+  database:
+    driver: bridge
+
+# volumes:
+#   postgres:

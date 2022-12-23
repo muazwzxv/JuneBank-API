@@ -1,11 +1,12 @@
 
-uri := "root:pass@/user?parseTime=true"
-
 run:
 	go run ./cmd
 
 migrations.up:
-	goose mysql ${uri} up
+	tern migrate --migrations ./migrations --config ./migrations/tern.conf
 
 migrations.down:
-	goose mysql ${uri} down
+	tern migrate --migrations ./migrations --config ./migrations/tern.conf --destination ${step}
+
+migrations.new:
+	cd migrations && tern new $(name) && cd ..
