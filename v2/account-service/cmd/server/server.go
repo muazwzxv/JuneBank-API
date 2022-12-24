@@ -7,12 +7,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type IServer interface {
-	Start() error
-	Setup() error
-	Routes() error
-}
-
 type fiberServer struct {
 	app *fiber.App
 }
