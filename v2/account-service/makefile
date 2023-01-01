@@ -2,6 +2,10 @@
 run:
 	go run ./cmd
 
+install:
+	go mod download
+	go install github.com/jackc/tern@latest	
+
 migrations.up:
 	tern migrate --migrations ./migrations --config ./migrations/tern.conf
 
