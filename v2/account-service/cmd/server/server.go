@@ -3,8 +3,10 @@ package server
 import (
 	"account-service/app/api"
 	"errors"
+	"github.com/jmoiron/sqlx"
 	"time"
 
+	createuser "account-service/app/usecases/createuser"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -43,8 +45,11 @@ func (s *fiberServer) Start() error {
 	return s.app.Listen(":3000")
 }
 
-func (s *fiberServer) Routes() error {
-	handlers := api.New()
+func (s *fiberServer) Routes(db *sqlx.DB) error {
+	// Register usecases here
+	handlers := api.New(
+		createuser.New(db),
+	)
 
 	v1 := s.app.Group("/api/v1")
 	v1.Get("/user", handlers.User.Create)

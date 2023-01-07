@@ -20,11 +20,14 @@ func main() {
 
 	// Start a DB connection
 	// TODO: Log if error is returned
-	_, _ = pg.New("postgresql://root:password@localhost:5432/user").
+	db, err := pg.New("postgresql://root:password@localhost:5432/user").
 		GetDB()
+	if err != nil {
+		log.Fatalf("failed to connect to database: %v", err)
+	}
 
 	// Setup routes
-	if err := svr.Routes(); err != nil {
+	if err := svr.Routes(db); err != nil {
 		log.Fatalf("failed to setup routes %v", err)
 	}
 
