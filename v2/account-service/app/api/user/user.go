@@ -1,13 +1,12 @@
 package user
 
 import (
-	"account-service/app/api"
 	"github.com/gofiber/fiber/v2"
 )
 
 type userAPI struct{}
 
-func New() api.IUserAPI {
+func New() IUserAPI {
 	return &userAPI{}
 }
 

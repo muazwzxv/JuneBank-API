@@ -35,6 +35,10 @@ func (s *fiberServer) Setup() error {
 	return nil
 }
 
+func (s *fiberServer) Shutdown() error {
+	return s.app.Shutdown()
+}
+
 func (s *fiberServer) Start() error {
 	return s.app.Listen(":3000")
 }
@@ -44,8 +48,6 @@ func (s *fiberServer) Routes() error {
 
 	v1 := s.app.Group("/api/v1")
 	v1.Get("/user", handlers.User.Create)
-
-	// TODO: Fix import cycle
 
 	return nil
 }

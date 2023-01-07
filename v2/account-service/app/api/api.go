@@ -3,7 +3,7 @@ package api
 import "account-service/app/api/user"
 
 type RestHandlers struct {
-	User IUserAPI
+	User user.IUserAPI
 }
 
 func New() RestHandlers {

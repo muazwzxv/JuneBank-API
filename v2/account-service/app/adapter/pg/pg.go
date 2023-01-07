@@ -7,6 +7,17 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
+func (a *Adapter) GetDB() (*sqlx.DB, error) {
+	if a.db == nil {
+		err := a.open(a.dsn)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return a.db, nil
+}
+
 func (a *Adapter) open(dsn string) error {
 	db, err := sqlx.Open("pgx", dsn)
 	if err != nil {
@@ -22,12 +33,4 @@ func (a *Adapter) open(dsn string) error {
 	log.Printf("Database is connected: %v", a.db)
 
 	return nil
-}
-
-func (a *Adapter) GetDB() *sqlx.DB {
-	if a.db == nil {
-		a.open(a.dsn)
-	}
-
-	return a.db
 }
