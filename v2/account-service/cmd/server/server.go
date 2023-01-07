@@ -6,7 +6,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	"time"
 
-	createuser "account-service/app/usecases/createuser"
+	"account-service/app/usecases/createuser"
 	"github.com/gofiber/fiber/v2"
 )
 

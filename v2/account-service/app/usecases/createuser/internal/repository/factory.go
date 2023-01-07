@@ -3,7 +3,7 @@ package repository
 import "github.com/jmoiron/sqlx"
 
 type IRepository interface {
-	CreateUserData()
+	CreateUserData() error
 }
 
 type repository struct {
