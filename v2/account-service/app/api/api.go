@@ -1,7 +1,13 @@
 package api
 
-import "github.com/gofiber/fiber"
+import "account-service/app/api/user"
 
-func Ping(ctx *fiber.Ctx) {
-	ctx.SendString("I'm Alive")
+type RestHandlers struct {
+	User IUserAPI
+}
+
+func New() RestHandlers {
+	return RestHandlers{
+		User: user.New(),
+	}
 }

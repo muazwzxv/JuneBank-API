@@ -1,6 +1,7 @@
 package server
 
 import (
+	"account-service/app/api"
 	"errors"
 	"time"
 
@@ -39,5 +40,12 @@ func (s *fiberServer) Start() error {
 }
 
 func (s *fiberServer) Routes() error {
+	handlers := api.New()
+
+	v1 := s.app.Group("/api/v1")
+	v1.Get("/user", handlers.User.Create)
+
+	// TODO: Fix import cycle
+
 	return nil
 }

@@ -15,7 +15,7 @@ func main() {
 	}
 
 	// Start a DB connection
-	_ = pg.New("lolololo").
+	_ = pg.New("postgresql://root:password@localhost:5432/user").
 		GetDB()
 
 	server.Start()

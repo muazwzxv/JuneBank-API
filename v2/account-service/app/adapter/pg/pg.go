@@ -1,6 +1,8 @@
 package pg
 
 import (
+	"log"
+
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/jmoiron/sqlx"
 )
@@ -17,6 +19,7 @@ func (a *Adapter) open(dsn string) error {
 	}
 
 	a.db = db
+	log.Printf("Database is connected: %v", a.db)
 
 	return nil
 }
