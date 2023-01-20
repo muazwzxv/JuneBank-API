@@ -1,0 +1,25 @@
+version: '3.9'
+services:
+   postgres:
+    container_name: pg-accountservice-v2
+    image: postgres
+    environment:
+      POSTGRES_DB: user
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    volumes:
+      # - postgres:/data/postgres
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - database
+    restart: unless-stopped
+
+networks:
+  database:
+    driver: bridge
+
+volumes:
+  postgres:
