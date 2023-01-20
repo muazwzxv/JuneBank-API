@@ -9,10 +9,8 @@ import (
 )
 
 func New(log log.Logger, db *sqlx.DB) *app.Module {
-	userRepo := repository.NewUserRepository(db)
-
 	return app.NewModule(
 		log,
-		userRepo,
+		repository.NewUserRepository(db),
 	)
 }

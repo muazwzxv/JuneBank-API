@@ -4,12 +4,10 @@ import (
 	"account-service/module/user/domain"
 	"account-service/module/user/repository"
 	"log"
-
-	"golang.org/x/net/context"
 )
 
 type IUserRepository interface {
-	Create(ctx context.Context, item *domain.UserData) error
+	Create(item *domain.CreateUser) error
 }
 
 var _ IUserRepository = (*repository.UserRepository)(nil)

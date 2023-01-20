@@ -1,7 +1,7 @@
 package main
 
 import (
-	"account-service/app/adapter/pg"
+	"account-service/app/pkg/pg"
 	"account-service/cmd/server"
 	"log"
 )
@@ -23,4 +23,8 @@ func main() {
 	}
 
 	svr.Start()
+}
+
+func setupModule() {
+
 }

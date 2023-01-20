@@ -1,4 +1,4 @@
-package adapter
+package pkg
 
 import "github.com/jmoiron/sqlx"
 
