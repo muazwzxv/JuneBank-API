@@ -1,7 +1,10 @@
 package user
 
-import "net/http"
+import (
+	"net/http"
+)
 
 func (h *UserHandler) Get(w http.ResponseWriter, r *http.Request) {
 	// TODO
+	w.Write([]byte("Lmaooooo"))
 }
