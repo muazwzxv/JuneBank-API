@@ -6,7 +6,7 @@ import (
 
 type IServer interface {
 	Start()
-	Setup() error
+	SetupServer() error
 }
 
 type chiServer struct {

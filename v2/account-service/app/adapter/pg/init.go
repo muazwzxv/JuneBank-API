@@ -1,7 +1,7 @@
 package pg
 
 import (
-	"account-service/app/pkg"
+	"account-service/app/adapter"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -11,6 +11,6 @@ type Adapter struct {
 	dsn string
 }
 
-func New(dsn string) pkg.IDatabaseAdapter {
+func New(dsn string) adapter.IDatabaseAdapter {
 	return &Adapter{dsn: dsn}
 }
