@@ -15,14 +15,16 @@ func (h *UserHandler) Get(w http.ResponseWriter, r *http.Request) {
 	userId, err := handlers.StringToUint64(userIdStr)
 	if err != nil {
 		// returns 404 since URL path could not be converted to uint64
-		h.R.JSON(w, http.StatusNotFound, map[string]string{"error": "invalid"})
+		h.Log.Printf("error parsing id: %d \n %v", userId, err)
+
+		h.R.JSON(w, http.StatusBadRequest, map[string]string{"error": "invalid"})
 		return
 	}
 
 	user, err := h.userService.Get(userId)
 	if err != nil {
-		// TODO: setup logger in console for development
 		h.Log.Printf("error getting user with id: %d \n %v", userId, err)
+
 		h.R.JSON(w, http.StatusNotFound, map[string]string{"error": "user not found"})
 		return
 	}
@@ -34,11 +36,15 @@ func (h *UserHandler) Get(w http.ResponseWriter, r *http.Request) {
 func (h *UserHandler) Create(w http.ResponseWriter, r *http.Request) {
 	data := domain.CreateUser{}
 	if err := render.Bind(r, &data); err != nil {
+		h.Log.Printf("error binding payload, %v", err)
+
 		h.R.JSON(w, http.StatusBadRequest, map[string]string{"error": "bad request"})
 		return
 	}
 
 	if err := h.userService.Create(data); err != nil {
+		h.Log.Printf("error creating user, %v", err)
+
 		h.R.JSON(w, http.StatusInternalServerError, map[string]string{"error": "failed to create user"})
 		return
 	}
