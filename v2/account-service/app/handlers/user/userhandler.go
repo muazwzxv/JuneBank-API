@@ -4,8 +4,10 @@ import (
 	"net/http"
 
 	"account-service/app/handlers"
+	"account-service/app/pkg/core/domain"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/render"
 )
 
 func (h *UserHandler) Get(w http.ResponseWriter, r *http.Request) {
@@ -19,6 +21,8 @@ func (h *UserHandler) Get(w http.ResponseWriter, r *http.Request) {
 
 	user, err := h.userService.Get(userId)
 	if err != nil {
+		// TODO: setup logger in console for development
+		h.Log.Printf("error getting user with id: %d \n %v", userId, err)
 		h.R.JSON(w, http.StatusNotFound, map[string]string{"error": "user not found"})
 		return
 	}
@@ -28,6 +32,17 @@ func (h *UserHandler) Get(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *UserHandler) Create(w http.ResponseWriter, r *http.Request) {
-	// TODO
-	w.Write([]byte("Create user endpoint here"))
+	data := domain.CreateUser{}
+	if err := render.Bind(r, &data); err != nil {
+		h.R.JSON(w, http.StatusBadRequest, map[string]string{"error": "bad request"})
+		return
+	}
+
+	if err := h.userService.Create(data); err != nil {
+		h.R.JSON(w, http.StatusInternalServerError, map[string]string{"error": "failed to create user"})
+		return
+	}
+
+	// TODO: Give more metadata in the response
+	h.R.JSON(w, http.StatusCreated, map[string]string{"message": "user created"})
 }

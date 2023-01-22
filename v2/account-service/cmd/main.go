@@ -4,10 +4,12 @@ import (
 	"account-service/app/adapter/pg"
 	"account-service/cmd/server"
 	"log"
+	"os"
 )
 
 func main() {
-	svr := server.New()
+	logger := log.New(os.Stdout, "V2 Account-Service API", log.LstdFlags)
+	svr := server.New(logger)
 
 	err := svr.SetupServer()
 	if err != nil {

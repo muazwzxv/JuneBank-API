@@ -1,6 +1,9 @@
 package user
 
-import "account-service/app/pkg/core/domain"
+import (
+	"account-service/app/pkg/core/domain"
+	"fmt"
+)
 
 func (r *userRepo) GetByID(id uint64) (*domain.User, error) {
 	query := `SELECT * FROM users WHERE id = $1`
@@ -9,7 +12,7 @@ func (r *userRepo) GetByID(id uint64) (*domain.User, error) {
 	err := r.db.QueryRowx(
 		query,
 		id,
-	).Scan(&userdata)
+	).StructScan(&userdata)
 	if err != nil {
 		return &domain.User{}, err
 	}
@@ -30,6 +33,7 @@ func (r *userRepo) Save(data domain.CreateUser) error {
 		data.Email,
 	)
 	if err != nil {
+		fmt.Printf("%v", err)
 		return err
 	}
 

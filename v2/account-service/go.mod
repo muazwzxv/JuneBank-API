@@ -8,8 +8,11 @@ require (
 	github.com/jmoiron/sqlx v1.3.5
 )
 
+require github.com/ajg/form v1.5.1 // indirect
+
 require (
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
+	github.com/go-chi/render v1.0.2
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b // indirect
 	github.com/stretchr/testify v1.8.1 // indirect
