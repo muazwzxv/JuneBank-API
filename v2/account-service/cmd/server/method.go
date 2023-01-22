@@ -8,8 +8,8 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/jmoiron/sqlx"
 
+	userHandler "account-service/app/handlers/user"
 	userService "account-service/app/pkg/core/services/user"
-	userHandler "account-service/app/pkg/handlers/user"
 	userRepo "account-service/app/pkg/repositories/user"
 )
 
@@ -37,6 +37,7 @@ func (s *chiServer) SetupHandlers(db *sqlx.DB) {
 
 	s.Mux.Route("/api/v1", func(r chi.Router) {
 		r.Get("/user/{id}", userHandler.Get)
+		r.Post("/user", userHandler.Create)
 	})
 
 }

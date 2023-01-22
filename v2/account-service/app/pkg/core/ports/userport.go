@@ -11,10 +11,11 @@ type IUserRepository interface {
 }
 
 type IUserService interface {
-	Create(domain.CreateUser) (*domain.User, error)
+	Create(domain.CreateUser) error
 	Get(id uint64) (*domain.User, error)
 }
 
 type IUserHandlers interface {
 	Get(w http.ResponseWriter, r *http.Request)
+	Create(w http.ResponseWriter, r *http.Request)
 }

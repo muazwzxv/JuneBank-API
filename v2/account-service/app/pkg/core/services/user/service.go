@@ -4,12 +4,10 @@ import (
 	"account-service/app/pkg/core/domain"
 )
 
-func (svr *userService) Create(createUser domain.CreateUser) (*domain.User, error) {
-	// TODO
-	return &domain.User{}, nil
+func (svr *userService) Create(createUser domain.CreateUser) error {
+	return svr.userRepository.Save(createUser)
 }
 
 func (svr *userService) Get(id uint64) (*domain.User, error) {
-	// TODO
-	return &domain.User{}, nil
+	return svr.userRepository.GetByID(id)
 }
