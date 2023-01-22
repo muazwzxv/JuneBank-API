@@ -3,6 +3,7 @@ package server
 import (
 	"github.com/go-chi/chi/v5"
 	"github.com/jmoiron/sqlx"
+	"github.com/unrolled/render"
 )
 
 type IServer interface {
@@ -12,7 +13,8 @@ type IServer interface {
 }
 
 type chiServer struct {
-	Mux *chi.Mux
+	Mux    *chi.Mux
+	Render *render.Render
 }
 
 var _ IServer = (*chiServer)(nil)

@@ -11,6 +11,8 @@ type Adapter struct {
 	dsn string
 }
 
+var _ adapter.IDatabaseAdapter = (*Adapter)(nil)
+
 func New(dsn string) adapter.IDatabaseAdapter {
 	return &Adapter{dsn: dsn}
 }
