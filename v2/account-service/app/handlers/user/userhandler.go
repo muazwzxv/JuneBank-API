@@ -17,7 +17,7 @@ func (h *UserHandler) Get(w http.ResponseWriter, r *http.Request) {
 		// returns 404 since URL path could not be converted to uint64
 		h.Log.Printf("error parsing id: %d \n %v", userId, err)
 
-		h.R.JSON(w, http.StatusBadRequest, map[string]string{"error": "invalid"})
+		h.R.JSON(w, http.StatusBadRequest, handlers.ErrInvalidRequest(err))
 		return
 	}
 
@@ -38,17 +38,21 @@ func (h *UserHandler) Create(w http.ResponseWriter, r *http.Request) {
 	if err := render.Bind(r, &data); err != nil {
 		h.Log.Printf("error binding payload, %v", err)
 
-		h.R.JSON(w, http.StatusBadRequest, map[string]string{"error": "bad request"})
+		h.R.JSON(w, http.StatusBadRequest, handlers.ErrInvalidRequest(err))
 		return
 	}
 
 	if err := h.userService.Create(data); err != nil {
 		h.Log.Printf("error creating user, %v", err)
 
-		h.R.JSON(w, http.StatusInternalServerError, map[string]string{"error": "failed to create user"})
+		h.R.JSON(w, http.StatusInternalServerError, handlers.ErrInternalServer(err))
 		return
 	}
 
 	// TODO: Give more metadata in the response
 	h.R.JSON(w, http.StatusCreated, map[string]string{"message": "user created"})
 }
+
+// TODO: Add custom error message for handler to return
+
+// TODO: Add custom return handler
