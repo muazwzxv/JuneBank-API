@@ -6,13 +6,13 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type Adapter struct {
+type PgAdapter struct {
 	db  *sqlx.DB
 	dsn string
 }
 
-var _ adapter.IDatabaseAdapter = (*Adapter)(nil)
+var _ adapter.IDatabaseAdapter = (*PgAdapter)(nil)
 
 func New(dsn string) adapter.IDatabaseAdapter {
-	return &Adapter{dsn: dsn}
+	return &PgAdapter{dsn: dsn}
 }

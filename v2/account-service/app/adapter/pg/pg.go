@@ -7,7 +7,7 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-func (a *Adapter) GetDB() (*sqlx.DB, error) {
+func (a *PgAdapter) GetDB() (*sqlx.DB, error) {
 	if a.db == nil {
 		err := a.open(a.dsn)
 		if err != nil {
@@ -18,7 +18,7 @@ func (a *Adapter) GetDB() (*sqlx.DB, error) {
 	return a.db, nil
 }
 
-func (a *Adapter) open(dsn string) error {
+func (a *PgAdapter) open(dsn string) error {
 	db, err := sqlx.Open("pgx", dsn)
 	if err != nil {
 		return err

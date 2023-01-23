@@ -7,6 +7,7 @@ import (
 	"os"
 )
 
+// Timestamp in DB is UTC
 func main() {
 	logger := log.New(os.Stdout, "V2 Account-Service API", log.LstdFlags)
 	svr := server.New(logger)

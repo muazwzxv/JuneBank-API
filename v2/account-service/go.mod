@@ -8,7 +8,11 @@ require (
 	github.com/jmoiron/sqlx v1.3.5
 )
 
-require github.com/ajg/form v1.5.1 // indirect
+require (
+	github.com/ajg/form v1.5.1 // indirect
+	github.com/rabbitmq/amqp091-go v1.3.4 // indirect
+	github.com/wagslane/go-rabbitmq v0.11.1 // indirect
+)
 
 require (
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
