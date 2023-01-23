@@ -21,16 +21,15 @@ func (h *UserHandler) Get(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := h.userService.Get(userId)
+	userData, err := h.userService.Get(userId)
 	if err != nil {
 		h.Log.Printf("error getting user with id: %d \n %v", userId, err)
 
-		h.R.JSON(w, http.StatusNotFound, map[string]string{"error": "user not found"})
+		h.R.JSON(w, http.StatusNotFound, handlers.ErrNotFound(err))
 		return
 	}
 
-	// TODO: Give more metadata in the response
-	h.R.JSON(w, http.StatusOK, user)
+	h.R.JSON(w, http.StatusOK, NewUserReponse(userData))
 }
 
 func (h *UserHandler) Create(w http.ResponseWriter, r *http.Request) {
@@ -49,10 +48,5 @@ func (h *UserHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// TODO: Give more metadata in the response
 	h.R.JSON(w, http.StatusCreated, map[string]string{"message": "user created"})
 }
-
-// TODO: Add custom error message for handler to return
-
-// TODO: Add custom return handler
