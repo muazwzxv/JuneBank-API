@@ -17,4 +17,8 @@
 * Write usecases
 
 
+## Design for V2 
+![image info](./asset/JuneBank.png)
+
+
 
