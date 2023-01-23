@@ -9,7 +9,7 @@ import (
 
 type UserHandler struct {
 	userService ports.IUserService
-	R           *render.Render
+	R           *render.Render // Only used for parsing request body
 	Log         *log.Logger
 }
 
