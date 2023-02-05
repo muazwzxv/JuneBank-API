@@ -6,7 +6,16 @@ import (
 )
 
 func (r *userRepo) GetByID(id uint64) (*domain.User, error) {
-	query := `SELECT * FROM users WHERE id = $1`
+	query := `
+		SELECT 
+			* 
+		FROM 
+			users 
+		WHERE 
+			id = $1 
+		AND 
+			deleted_at = NULL`
+
 	var userdata user
 
 	err := r.db.QueryRowx(
@@ -70,4 +79,46 @@ func (r *userRepo) Update(id uint64, toUpdate domain.CreateUser) (*domain.User, 
 	}
 
 	return userdata.toDomain(), nil
+}
+
+func (r *userRepo) DeleteByID(id uint64) (*domain.User, error) {
+
+	query := `
+		UPDATE 
+			users
+		SET 
+			deleted_at = NOW()
+		WHERE
+			id = $1
+		RETURNING *
+	`
+
+	var userdata user
+	err := r.db.QueryRowx(
+		query,
+		id,
+	).StructScan(&userdata)
+
+	if err != nil {
+		return &domain.User{}, err
+	}
+
+	return userdata.toDomain(), nil
+}
+
+func (r *userRepo) IsUserExist(id uint64) (bool, error) {
+
+	isExistQuery := `SELECT EXISTS(SELECT 1 FROM users WHERE id = $1 AND deleted_at = NULL)`
+
+	var isExist bool
+
+	err := r.db.QueryRowx(
+		isExistQuery,
+		id,
+	).Scan(&isExist)
+	if err != nil {
+		return isExist, fmt.Errorf("error querying user exists id=%d, %v", id, err)
+	}
+
+	return isExist, nil
 }

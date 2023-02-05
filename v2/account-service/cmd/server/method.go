@@ -48,6 +48,7 @@ func (s *chiServer) SetupHandlers(db *sqlx.DB) {
 		r.Get("/user/{id}", userHandler.Get)
 		r.Post("/user", userHandler.Create)
 		r.Put("/user/{id}", userHandler.Update)
+		r.Delete("/user/{id}", userHandler.Delete)
 	})
 
 }
