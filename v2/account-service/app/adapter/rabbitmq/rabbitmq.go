@@ -24,6 +24,8 @@ func (a *RabbitAdapter) open() error {
 	if err != nil {
 		return err
 	}
+
+	a.Log.Printf("rabbitmq: connected to rabbitmq")
 	// TODO: Implement graceful shutdown for RabbitMQ
 
 	a.Conn = conn

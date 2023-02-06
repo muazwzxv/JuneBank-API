@@ -2,6 +2,8 @@ package main
 
 import (
 	"account-service/app/adapter/pg"
+	"account-service/app/adapter/rabbitmq"
+	events "account-service/app/events/publish"
 	"account-service/cmd/server"
 	"log"
 	"os"
@@ -16,13 +18,19 @@ func main() {
 
 	err := svr.SetupServer()
 	if err != nil {
-		log.Fatalf("failed to setup server %v", err)
+		logger.Fatalf("failed to setup server %v", err)
 	}
 
-	db, err := pg.New("postgresql://root:password@localhost:5432/user").
+	db, err := pg.New("postgresql://root:password@localhost:5432/user", logger).
 		GetDB()
 	if err != nil {
-		log.Fatalf("failed to connect to database: %v", err)
+		logger.Fatalf("failed to connect to database: %v", err)
+	}
+
+	rbmq := rabbitmq.New(logger)
+	_, err = events.NewPublisher(rbmq, logger)
+	if err != nil {
+		logger.Fatalf("failed to connect to rabbitmq %v", err)
 	}
 
 	svr.SetupHandlers(db)
