@@ -9,6 +9,6 @@ type IDatabaseAdapter interface {
 	GetDB() (*sqlx.DB, error)
 }
 
-type IRabbitMQAdapter interface {
+type IEventQueueAdapter interface {
 	GetConn() (*rabbitmq.Conn, error)
 }

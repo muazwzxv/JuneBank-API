@@ -7,6 +7,8 @@ import (
 	"os"
 )
 
+// TODO: Setup ENV config
+
 // Timestamp in DB is UTC
 func main() {
 	logger := log.New(os.Stdout, "V2 Account-Service API", log.LstdFlags)

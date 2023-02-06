@@ -10,6 +10,6 @@ type RabbitAdapter struct {
 	Conn *rabbitmq.Conn
 }
 
-func New() adapter.IRabbitMQAdapter {
+func New() adapter.IEventQueueAdapter {
 	return &RabbitAdapter{}
 }

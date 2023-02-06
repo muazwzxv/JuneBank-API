@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-   postgres:
+  postgres:
     container_name: pg-accountservice-v2
     image: postgres
     environment:
@@ -9,17 +9,34 @@ services:
       POSTGRES_PASSWORD: password
       PGDATA: /data/postgres
     volumes:
-      # - postgres:/data/postgres
       - postgres:/data/postgres
     ports:
       - "5432:5432"
     networks:
-      - database
+      - account-service
     restart: unless-stopped
+  rabbitmq:
+    container_name: rbmq-accountservice-v2
+    image: rabbitmq:3.11-management
+    # environment:
+      # RABBITMQ_DEFAULT_USER: "root"
+      # RABBITMQ_DEFAULT_PASSWORD: "password"
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+      - rabbitmq-logs:/var/log/rabbitmq
+    networks:
+      - account-service
 
 networks:
-  database:
+  account-service:
     driver: bridge
 
 volumes:
   postgres:
+  rabbitmq-data:
+  rabbitmq-logs:
+
+
