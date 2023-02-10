@@ -29,26 +29,29 @@ func (r *userRepo) GetByID(id uint64) (*domain.User, error) {
 	return userdata.toDomain(), nil
 }
 
-func (r *userRepo) Save(data domain.CreateUser) error {
+func (r *userRepo) Save(data domain.CreateUser) (*domain.User, error) {
 	query := `
 		INSERT INTO 
 			users 
 				(first_name, last_name, email)
 			VALUES 
-				($1, $2, $3)`
+				($1, $2, $3)
+			RETURNING *`
 
-	_, err := r.db.Exec(
+	var createdUser user
+	err := r.db.QueryRowx(
 		query,
 		data.FirstName,
 		data.LastName,
 		data.Email,
-	)
+	).StructScan(&createdUser)
+
 	if err != nil {
 		fmt.Printf("%v", err)
-		return err
+		return &domain.User{}, err
 	}
 
-	return nil
+	return createdUser.toDomain(), nil
 }
 
 func (r *userRepo) Update(id uint64, toUpdate domain.CreateUser) (*domain.User, error) {

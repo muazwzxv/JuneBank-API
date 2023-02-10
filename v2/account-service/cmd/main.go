@@ -3,7 +3,8 @@ package main
 import (
 	"account-service/app/adapter/pg"
 	"account-service/app/adapter/rabbitmq"
-	events "account-service/app/events/publish"
+	consume "account-service/app/events/consume"
+	publish "account-service/app/events/publish"
 	"account-service/cmd/server"
 	"log"
 	"os"
@@ -28,12 +29,23 @@ func main() {
 	}
 
 	rbmq := rabbitmq.New(logger)
-	_, err = events.NewPublisher(rbmq, logger)
+
+	pub, err := publish.NewPublisher(rbmq, logger)
 	if err != nil {
 		logger.Fatalf("failed to connect to rabbitmq %v", err)
 	}
 
-	svr.SetupHandlers(db)
+	sub, err := consume.NewConsumer(rbmq, logger)
+	if err != nil {
+		logger.Fatalf("failed to connect to rabbitmq %v", err)
+	}
+
+	svr.SetupHandlers(
+		db,
+		pub,
+		sub,
+	)
 
 	svr.Start()
+
 }

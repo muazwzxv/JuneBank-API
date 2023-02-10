@@ -1,11 +1,34 @@
 package user
 
 import (
+	pub "account-service/app/events/publish"
 	"account-service/app/pkg/core/domain"
 )
 
+var (
+	USERCREATED = "user created"
+)
+
 func (svr *userService) Create(createUser domain.CreateUser) error {
-	return svr.userRepository.Save(createUser)
+	user, err := svr.userRepository.Save(createUser)
+	if err != nil {
+		return err
+	}
+
+	userByte, err := user.ToJsonStr()
+	if err != nil {
+		return err
+	}
+
+	payload := &pub.Payload{
+		Data:  userByte,
+		Event: USERCREATED,
+	}
+
+	// Do this asyncly
+	go svr.Publish(payload, []string{"KEY"})
+
+	return nil
 }
 
 func (svr *userService) Get(id uint64) (*domain.User, error) {

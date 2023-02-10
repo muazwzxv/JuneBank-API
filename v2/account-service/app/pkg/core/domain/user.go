@@ -2,6 +2,7 @@ package domain
 
 import (
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"net/http"
 	"time"
@@ -21,6 +22,14 @@ type CreateUser struct {
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
 	Email     string `json:"email"`
+}
+
+func (c *User) ToJsonStr() ([]byte, error) {
+	if res, err := json.Marshal(c); err != nil {
+		return nil, err
+	} else {
+		return res, nil
+	}
 }
 
 func (c *CreateUser) Bind(r *http.Request) error {

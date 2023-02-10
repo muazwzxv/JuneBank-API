@@ -1,6 +1,8 @@
 package server
 
 import (
+	consume "account-service/app/events/consume"
+	publish "account-service/app/events/publish"
 	"log"
 
 	"github.com/go-chi/chi/v5"
@@ -11,7 +13,7 @@ import (
 type IServer interface {
 	Start()
 	SetupServer() error
-	SetupHandlers(db *sqlx.DB)
+	SetupHandlers(db *sqlx.DB, pub *publish.Publisher, sub *consume.Subscriber)
 }
 
 type chiServer struct {

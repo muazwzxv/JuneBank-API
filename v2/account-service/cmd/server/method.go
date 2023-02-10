@@ -10,6 +10,8 @@ import (
 	"github.com/jmoiron/sqlx"
 	r "github.com/unrolled/render"
 
+	consume "account-service/app/events/consume"
+	publish "account-service/app/events/publish"
 	userHandler "account-service/app/handlers/user"
 	userService "account-service/app/pkg/core/services/user"
 	userRepo "account-service/app/pkg/repositories/user"
@@ -39,9 +41,13 @@ func (s *chiServer) Start() {
 	http.ListenAndServe(":3000", s.Mux)
 }
 
-func (s *chiServer) SetupHandlers(db *sqlx.DB) {
+func (s *chiServer) SetupHandlers(
+	db *sqlx.DB,
+	pub *publish.Publisher,
+	sub *consume.Subscriber,
+) {
 
-	usersrv := userService.New(userRepo.New(db))
+	usersrv := userService.New(userRepo.New(db), pub)
 	userHandler := userHandler.New(usersrv, s.Render, s.Log)
 
 	s.Mux.Route("/api/v1", func(r chi.Router) {

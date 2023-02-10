@@ -11,4 +11,5 @@ type IDatabaseAdapter interface {
 
 type IRabbitAdapter interface {
 	GetConn() (*rabbitmq.Conn, error)
+	Close() error
 }

@@ -8,7 +8,7 @@ import (
 )
 
 type Publisher struct {
-	*rabbitmq.Publisher
+	pub *rabbitmq.Publisher
 	Log *log.Logger
 }
 
@@ -32,7 +32,7 @@ func NewPublisher(rbmq adapter.IRabbitAdapter, log *log.Logger) (*Publisher, err
 	log.Printf("rabbitmq: publisher created")
 
 	return &Publisher{
-		Publisher: publisher,
-		Log:       log,
+		pub: publisher,
+		Log: log,
 	}, nil
 }

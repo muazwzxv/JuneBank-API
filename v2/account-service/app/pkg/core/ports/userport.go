@@ -6,7 +6,7 @@ import (
 )
 
 type IUserRepository interface {
-	Save(domain.CreateUser) error
+	Save(domain.CreateUser) (*domain.User, error)
 	GetByID(id uint64) (*domain.User, error)
 	Update(id uint64, update domain.CreateUser) (*domain.User, error)
 	DeleteByID(id uint64) (*domain.User, error)

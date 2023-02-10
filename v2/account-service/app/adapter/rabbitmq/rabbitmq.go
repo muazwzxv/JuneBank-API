@@ -31,3 +31,7 @@ func (a *RabbitAdapter) open() error {
 	a.Conn = conn
 	return nil
 }
+
+func (a *RabbitAdapter) Close() error {
+	return a.Conn.Close()
+}
