@@ -26,7 +26,7 @@ func (svr *userService) Create(createUser domain.CreateUser) error {
 	}
 
 	// Do this asyncly
-	go svr.Publish(payload, []string{"KEY"})
+	go svr.Publish(payload, []string{"my_key"})
 
 	return nil
 }
@@ -45,4 +45,27 @@ func (svr *userService) Delete(id uint64) (*domain.User, error) {
 
 func (svr *userService) IsUserExist(id uint64) (bool, error) {
 	return svr.userRepository.IsUserExist(id)
+}
+
+func (svr *userService) TriggerUserEvent() error {
+
+	user := domain.User{
+		ID:        23,
+		FirstName: "lmaoo",
+		LastName:  "still lmaooo",
+	}
+
+	b, err := user.ToJsonStr()
+	if err != nil {
+		return err
+	}
+
+	payload := &pub.Payload{
+		Data:  b,
+		Event: USERCREATED,
+	}
+
+	go svr.Publish(payload, []string{"ROUTING_KEY"})
+
+	return nil
 }

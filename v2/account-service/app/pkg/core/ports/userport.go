@@ -19,6 +19,7 @@ type IUserService interface {
 	Update(id uint64, update domain.CreateUser) (*domain.User, error)
 	Delete(id uint64) (*domain.User, error)
 	IsUserExist(id uint64) (bool, error)
+	TriggerUserEvent() error
 }
 
 type IUserHandlers interface {
@@ -26,4 +27,5 @@ type IUserHandlers interface {
 	Create(w http.ResponseWriter, r *http.Request)
 	Update(w http.ResponseWriter, r *http.Request)
 	Delete(w http.ResponseWriter, r *http.Request)
+	TestEvent(w http.ResponseWriter, r *http.Request)
 }

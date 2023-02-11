@@ -27,6 +27,7 @@ func main() {
 	if err != nil {
 		logger.Fatalf("failed to connect to database: %v", err)
 	}
+	defer db.Close()
 
 	rbmq := rabbitmq.New(logger)
 
@@ -47,5 +48,4 @@ func main() {
 	)
 
 	svr.Start()
-
 }

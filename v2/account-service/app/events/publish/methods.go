@@ -34,6 +34,8 @@ func (p *Publisher) Publish(data *Payload, key []string) {
 		data.ToBuffer(),
 		key,
 		rabbitmq.WithPublishOptionsContentType("application/json"),
+		rabbitmq.WithPublishOptionsMandatory,
+		rabbitmq.WithPublishOptionsPersistentDelivery,
 		rabbitmq.WithPublishOptionsExchange("account-service"),
 	)
 }

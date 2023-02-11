@@ -51,6 +51,7 @@ func (s *chiServer) SetupHandlers(
 	userHandler := userHandler.New(usersrv, s.Render, s.Log)
 
 	s.Mux.Route("/api/v1", func(r chi.Router) {
+		r.Get("/user/event", userHandler.TestEvent)
 		r.Get("/user/{id}", userHandler.Get)
 		r.Post("/user", userHandler.Create)
 		r.Put("/user/{id}", userHandler.Update)

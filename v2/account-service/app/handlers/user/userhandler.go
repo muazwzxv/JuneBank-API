@@ -104,3 +104,12 @@ func (h *UserHandler) Delete(w http.ResponseWriter, r *http.Request) {
 
 	h.R.JSON(w, http.StatusOK, NewUserReponse(deletedUser, MessageUserDeleted))
 }
+
+func (h *UserHandler) TestEvent(w http.ResponseWriter, r *http.Request) {
+	if err := h.userService.TriggerUserEvent(); err != nil {
+		h.R.JSON(w, http.StatusInternalServerError, handlers.ErrInternalServer(err))
+	}
+
+	h.R.JSON(w, http.StatusOK, &UserResponse{Message: "event triggered"})
+
+}
